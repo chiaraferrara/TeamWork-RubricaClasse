@@ -1,0 +1,18 @@
+{
+  "name": "teamwork-rubricaclasse",
+  "version": "1.0.0",
+  "description": "L'applicazione \"Registro di Classe\" è stata progettata per essere uno strumento versatile e multifunzionale per la gestione dei registri scolastici. Qui di seguito troverai una panoramica delle sue funzionalità chiave:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^5.3.2",
+    "prettier": "^3.1.1"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
