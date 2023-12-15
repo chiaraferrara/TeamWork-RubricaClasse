@@ -21,13 +21,21 @@ class Register {
       id: lastRegisterId + 1, //incrementa di 1
       subject: subject,
       grades: [],
+      studentslist: [],
+      lectures: [],
     };
     registers.push(register);
     console.log(registers);
     this.saveOnLocalStorage();
   }
 
-  updateRegister(registerId, newName) {}
+  updateRegister(registerId, newName) {
+    const register = this.registers(register => register.id == registerId);
+    if (register) {
+      register.name = newName;
+      this.saveOnLocalStorage();
+    }
+  }
 
   assignGrade(id, registerId, value, date, subject) {
     const student = this.students.find(student => student.id === id);
@@ -40,7 +48,7 @@ class Register {
 
       const registro = registers.find(register => register.id === registerId);
       if (registro) {
-        register.grades.push({
+        registro.grades.push({
           grade: value,
           date: date,
         });
@@ -48,10 +56,23 @@ class Register {
       this.saveOnLocalStorage();
     }
   }
+  //voglio che questo metodo prenda l'id del registro come parametro e faccia il push di tutti gli studenti nell'array del registro in questione
+  connectStudentToRegister(registerId) {
+    const registro = registers.find(register => register.id === registerId);
 
-  connectStudentToRegister() {}
+    if (registro) {
+      this.students.forEach(student => registro.studentslist.push(student.id));
+      this.saveOnLocalStorage();
+    }
+  }
 
-  deleteRegister() {}
+  deleteRegister(id) {
+    const index = registers.findIndex(register => register.id === id);
+    if (index !== -1) {
+      registers.splice(index, 1);
+    }
+    this.saveOnLocalStorage();
+  }
   //--------------------METODI STUDENTE---------------------------
   addStudent(name, lastName) {
     const lastStudent = this.students[this.students.length - 1]; //prendiamo l'ultimo studente
@@ -62,7 +83,7 @@ class Register {
       name: name,
       lastName: lastName,
       grades: [],
-      attendance: true,
+      attendance: false,
     };
     this.students.push(student);
     console.log(this.studenti);
@@ -77,8 +98,8 @@ class Register {
   updateStudent(id, newName, newlastName) {
     const student = this.students.find(student => student.id === id);
     if (student) {
-      this.student.name = newName;
-      this.student.lastName = newlastName;
+      student.name = newName;
+      student.lastName = newlastName;
       this.saveOnLocalStorage();
     }
   }
@@ -93,10 +114,65 @@ class Register {
   }
 
   //-------------------METODI LEZIONI-----------------------------
-  createLesson(id, date, topic) {}
+  createLesson(id, date, topic) {
+    const registro = registers.find(register => register.id === id);
 
-  deleteLesson({ id, idRegister, idStudent }) {}
+    if (registro) {
+      const newLesson = {
+        id: Date.now(), //timestamp corrente come identificatore
+        date: date,
+        topic: topic,
+        attendees: this.students.map(student => student.id),
+      };
 
+      registro.lectures.push(newLesson);
+      this.saveOnLocalStorage();
+    }
+  }
+
+  deleteLesson({ id, idRegister }) {
+    const registro = registers.find(register => register.id === idRegister);
+
+    if (registro) {
+      const index = registro.lectures.findIndex(lesson => lesson.id === id);
+
+      if (index !== -1) {
+        registro.lectures.splice(index, 1);
+        this.saveOnLocalStorage();
+      }
+    }
+  }
+
+  removeAttendance(lessonId, studentId, idRegister) {
+    const registro = registers.find(register => register.id === idRegister);
+
+    if (registro) {
+      const lesson = registro.lectures.find(lecture => lecture.id === lessonId);
+
+      if (lesson) {
+        const index = lesson.attendees.indexOf(studentId);
+        if (index !== -1) {
+          lesson.attendees.splice(index, 1);
+          this.saveOnLocalStorage();
+        }
+      }
+    }
+  }
+
+  markAttendance(lessonId, studentId, idRegister) {
+    const registro = registers.find(register => register.id === idRegister);
+
+    if (registro) {
+      const lesson = registro.lectures.find(lecture => lecture.id === lessonId);
+
+      if (lesson) {
+        if (!lesson.attendees.includes(studentId)) {
+          lesson.attendees.push(studentId);
+          this.saveOnLocalStorage();
+        }
+      }
+    }
+  }
   //--------------------SALVATAGGIO NEL LOCAL STORAGE----------------
   saveOnLocalStorage() {
     localStorage.setItem('students', JSON.stringify(this.students));
