@@ -500,9 +500,11 @@ document.addEventListener('DOMContentLoaded', function () {
           updateRegister(register.id, newSubjectTitle);
           console.log(newSubjectTitle);
 
+          
+          cardTitle.setAttribute('disabled', false);
+          editSubjectBtn.removeAttribute('disabled');
+          saveSubj.remove();
           newSubjectTitle.textContent = `${register.subject}`;
-          cardTitle.setAttribute('disabled', true);
-          editSubjectBtn.setAttribute('disabled', false);
         });
       });
     });
