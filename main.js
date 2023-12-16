@@ -18,7 +18,7 @@ const createRegister = () => {
   //prendo l'array dei corsi e trovo l'ultimo elemento per incrememntare l'id di 1
 
   const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];
-  const lastRegister = storedRegisters.length>0 ? storedRegisters[storedRegisters.length -1 ] : null;
+  const lastRegister = storedRegisters.length > 0 ? storedRegisters[storedRegisters.length - 1] : null;
   const lastRegisterId = lastRegister ? lastRegister.id + 1 : 1; // ?, se la condizione è vera restituirà l'id del registro precedente.
   //altrimenti restituisce 0.
   const register = {
@@ -28,7 +28,7 @@ const createRegister = () => {
     studentslist: [],
     lectures: [],
   };
- storedRegisters.push(register);
+  storedRegisters.push(register);
   console.log(registers);
   localStorage.setItem('registers', JSON.stringify(storedRegisters));
   return register;
@@ -93,7 +93,7 @@ const addStudent = () => {
   const email = document.getElementById('EmailInput').value;
   const tel = document.getElementById('PhoneNumberInput').value;
 
-  const storedStudents = JSON.parse(localStorage.getItem('students')) || []; 
+  const storedStudents = JSON.parse(localStorage.getItem('students')) || [];
   const lastStudent = storedStudents.length > 0 ? storedStudents[storedStudents.length - 1] : null;
   const lastStudentId = lastStudent ? lastStudent.id + 1 : 1;
 
@@ -112,26 +112,27 @@ const addStudent = () => {
   return student;
 };
 
-
 const getStudentList = () => {
   return students;
 };
 
-const updateStudent = (id, newName, newlastName) => {
-  const student = students.find(student => student.id === id);
-  if (student) {
-    student.name = newName;
-    student.lastName = newlastName;
-    saveOnLocalStorage();
+const updateStudent = (id, newName, newlastName, newMail, newTel) => {
+  const index = students.findIndex(student => student.id === id);
+  if (index !== -1) {
+    students[index].name = newName;
+    students[index].lastName = newlastName;
+    students[index].email = newMail;
+    students[index].tel = newTel;
+    localStorage.setItem('students', JSON.stringify(students));
   }
 };
 
-const deleteStudent = id => {
+const deleteStudent = (id) => {
   const index = students.findIndex(student => student.id === id);
   if (index !== -1) {
     //se index !=== -1 indica che lo studente è stato trovato nell'array
     students.splice(index, 1);
-    saveOnLocalStorage();
+    localStorage.setItem('students', JSON.stringify(students));
   }
 };
 
@@ -196,22 +197,20 @@ const markAttendance = (lessonId, studentId, idRegister) => {
   }
 };
 //--------------------SALVATAGGIO NEL LOCAL STORAGE----------------
-const saveOnLocalStorage = () => {
-  localStorage.setItem('students', JSON.stringify(students));
-  localStorage.setItem('lectures', JSON.stringify(this.lectures)); 
-  localStorage.setItem('registers', JSON.stringify(registers));
-};
-
+// const saveOnLocalStorage = () => {
+//   localStorage.setItem('students', JSON.stringify(students));
+//   localStorage.setItem('lectures', JSON.stringify(this.lectures));
+//   localStorage.setItem('registers', JSON.stringify(registers));
+// };
 
 document.addEventListener('DOMContentLoaded', function () {
   students = JSON.parse(localStorage.getItem('students'));
-  
+
   const closeBtnRegister = document.getElementById('closebtnAddRegister');
-const closeBtnStudent = document.getElementById('closebtnAddStudent');
+  const closeBtnStudent = document.getElementById('closebtnAddStudent');
 
   const addSubjectModal = document.querySelector('.addSubjectForm');
   const addSubjectModalFooter = document.querySelector('.modal-footer');
-  
 
   const subjectInput = document.createElement('input');
   addSubjectModal.appendChild(subjectInput);
@@ -273,7 +272,6 @@ const closeBtnStudent = document.getElementById('closebtnAddStudent');
     closeBtnStudent.click();
   });
 
-
   const studentListContainer = document.querySelector('.studentlistcontainer');
 
   //LISTA DEGLI STUDENTI
@@ -285,14 +283,16 @@ const closeBtnStudent = document.getElementById('closebtnAddStudent');
     studentHeader.classList.add('accordion-header');
 
     const studentButton = document.createElement('button');
-    studentButton.classList.add('accordion-button');
+    studentButton.setAttribute('class', 'accordion-button studentBtn');
+    studentButton.setAttribute('id' , 'studentBtn')
     studentButton.setAttribute('type', 'button');
     studentButton.setAttribute('data-bs-toggle', 'collapse');
     studentButton.setAttribute('data-bs-target', `#collapse${index}`);
     studentButton.setAttribute('aria-expanded', 'true');
     studentButton.setAttribute('aria-controls', `collapse${index}`);
-    studentButton.textContent = `${student.name} ${student.lastName}`;
-
+    studentButton.textContent = `${student.name} ${student.lastName}`;  
+    
+    
     const studentCollapse = document.createElement('div');
     studentCollapse.classList.add('accordion-collapse', 'collapse');
     studentCollapse.setAttribute('id', `collapse${index}`);
@@ -300,34 +300,165 @@ const closeBtnStudent = document.getElementById('closebtnAddStudent');
 
     const studentBody = document.createElement('div');
     studentBody.classList.add('accordion-body');
-    studentBody.innerHTML = `<strong>Email:</strong> ${student.email}<br><strong>Phone:</strong> ${student.tel}`;
 
-    // Append elements to build the student accordion structure
-    studentHeader.appendChild(studentButton);
-    studentContainer.appendChild(studentHeader);
+
+     studentContainer.appendChild(studentHeader);
     studentCollapse.appendChild(studentBody);
-    studentContainer.appendChild(studentCollapse);
-    
-    // Append the student container to the student list container
+    studentHeader.appendChild(studentButton);
     studentListContainer.appendChild(studentContainer);
+  // },
+    document.getElementById('studentBtn').addEventListener('click', function(){
+
+      while (studentBody.firstChild) {
+        studentBody.removeChild(studentBody.firstChild);
+      }
+
+
+    const emailInput = document.createElement('input');
+    emailInput.setAttribute('type', 'email');
+    emailInput.setAttribute('placeholder', 'Enter email');
+    emailInput.value = student.email;
+    emailInput.setAttribute('disabled', true);
+
+    const nameLabel = document.createElement('strong');
+    nameLabel.textContent = 'Name: ';
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('type', 'text');
+    nameInput.setAttribute('placeholder', 'Enter name');
+    nameInput.value = student.name;
+    nameInput.setAttribute('disabled', true);
+
+    const lastNameLabel = document.createElement('strong');
+    lastNameLabel.textContent = 'Last Name: ';
+
+    const lastNameInput = document.createElement('input');
+    lastNameInput.setAttribute('type', 'text');
+    lastNameInput.setAttribute('placeholder', 'Enter last name');
+    lastNameInput.value = student.lastName;
+    lastNameInput.setAttribute('disabled', true);
+
+    const emailLabel = document.createElement('strong');
+    emailLabel.textContent = 'Email: ';
+
+    const emailSpan = document.createElement('input');
+    emailSpan.textContent = student.email;
+    emailSpan.setAttribute('type', 'email');
+    emailSpan.value = student.email;
+    emailSpan.setAttribute('disabled', true);
+
+    const phoneLabel = document.createElement('strong');
+    phoneLabel.textContent = 'Phone: ';
+
+    const phoneSpan = document.createElement('input');
+    phoneSpan.textContent = student.tel;
+    phoneSpan.value = student.tel;
+    phoneSpan.setAttribute('disabled', true);
+    phoneSpan.setAttribute('type', 'tel');
+
+    const buttonGroup = document.createElement('div');
+    buttonGroup.setAttribute('class', 'btn-group');
+    buttonGroup.setAttribute('role', 'group');
+    buttonGroup.setAttribute('aria-label', 'Basic example');
+
+    const editStudentBtn = document.createElement('button');
+    editStudentBtn.textContent = 'Edit';
+    editStudentBtn.setAttribute('class', 'btn btn-primary');
+    editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
+
+    const deleteStudentBtn = document.createElement('button');
+    deleteStudentBtn.textContent = 'Delete';
+    deleteStudentBtn.setAttribute('class', 'btn btn-danger');
+    deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
+   
+
+
+    studentBody.appendChild(document.createElement('br'));
+
+    studentBody.appendChild(nameLabel);
+    studentBody.appendChild(nameInput);
+    studentBody.appendChild(document.createElement('br'));
+
+    studentBody.appendChild(lastNameLabel);
+    studentBody.appendChild(lastNameInput);
+    studentBody.appendChild(document.createElement('br'));
+    studentBody.appendChild(emailLabel);
+    studentBody.appendChild(emailSpan);
+    studentBody.appendChild(document.createElement('br'));
+    studentBody.appendChild(phoneLabel);
+    studentBody.appendChild(phoneSpan);
+    studentBody.appendChild(document.createElement('br'));
+    studentBody.appendChild(buttonGroup);
+    buttonGroup.appendChild(editStudentBtn);
+    buttonGroup.appendChild(deleteStudentBtn);
+    studentContainer.appendChild(studentCollapse);
+
+    studentListContainer.appendChild(studentContainer);
+
+    deleteStudentBtn.addEventListener('click', function () {
+      deleteStudent(student.id);
+      studentContainer.remove();
+    });
+    document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
+      phoneSpan.removeAttribute('disabled');
+      emailSpan.removeAttribute('disabled');
+      nameInput.removeAttribute('disabled');
+      lastNameInput.removeAttribute('disabled');
+      editStudentBtn.setAttribute('disabled', true);
+      studentButton.setAttribute('disabled', true);
+      const saveEditBtn = document.createElement('button');
+      saveEditBtn.setAttribute('class', 'btn btn-primary');
+      saveEditBtn.setAttribute('id', 'saveEditBtn');
+      saveEditBtn.textContent = 'Save';
+
+      const closeBtn = document.createElement('button');
+      closeBtn.setAttribute('class', 'btn btn-secondary');
+      closeBtn.setAttribute('id', 'closeBtn');
+      closeBtn.textContent = 'Close';
+
+      buttonGroup.appendChild(saveEditBtn);
+      buttonGroup.appendChild(closeBtn);
+
+      document.getElementById('saveEditBtn').addEventListener('click', function () {
+        const newName = nameInput.value;
+        const newLastName = lastNameInput.value;
+        const newMail = emailSpan.value;
+        const newTel = phoneSpan.value;
+        updateStudent(student.id, newName, newLastName, newMail, newTel);
+        studentButton.textContent = `${newName} ${newLastName}`;
+        document.getElementById('closeBtn').click()
+
+
+      });
+      document.getElementById('closeBtn').addEventListener('click', function () {
+        // location.reload();
+        phoneSpan.setAttribute('disabled', true);
+        emailSpan.setAttribute('disabled', true);
+        nameInput.setAttribute('disabled', true);
+        lastNameInput.setAttribute('disabled', true);
+        editStudentBtn.removeAttribute('disabled');
+        studentButton.removeAttribute('disabled');
+        const accordionItem = document.getElementById(`collapse${index}`);
+        const bsCollapse = new bootstrap.Collapse(accordionItem);
+         bsCollapse.hide();
+      });
+    });
+
+
+    
   });
-
-
-
+});
 
   const registersContainer = document.querySelector('.registerscontainer');
 
   if (registersContainer) {
-    
     const storedRegisters = JSON.parse(localStorage.getItem('registers'));
 
     storedRegisters.forEach(register => {
-    
       const card = document.createElement('div');
       card.classList.add('card');
       card.style.width = '18rem';
 
-     
       const cardBody = document.createElement('div');
       cardBody.classList.add('card-body');
 
@@ -335,18 +466,14 @@ const closeBtnStudent = document.getElementById('closebtnAddStudent');
       cardTitle.classList.add('card-title');
       cardTitle.textContent = register.subject;
 
-
       const redirectButton = document.createElement('a');
-      redirectButton.href = `register/${register.id}`; 
+      redirectButton.href = `register/${register.id}`;
       redirectButton.classList.add('btn', 'btn-link');
-      
-      
+
       const image = document.createElement('img');
-      image.src = 'assets/access.svg'; 
+      image.src = 'assets/access.svg';
       redirectButton.appendChild(image);
 
-
-    
       cardBody.appendChild(cardTitle);
       cardBody.appendChild(redirectButton);
       card.appendChild(cardBody);
