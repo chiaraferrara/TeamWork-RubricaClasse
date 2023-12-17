@@ -16,13 +16,9 @@ let students = [];
 
 const showRegister = () => {
   const registersContainer = document.querySelector('.registerscontainer');
-<<<<<<< HEAD
-  registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo ppa
-=======
   registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo non si duplicano
->>>>>>> 1c3f5b5bd541b5966fd4225aa4f69dec9edb026c
   if (registersContainer) {
-    const storedRegisters = JSON.parse(localStorage.getItem('registers'));
+    const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];;
 
     storedRegisters.forEach(register => {
       const card = document.createElement('div');
