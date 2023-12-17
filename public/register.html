@@ -73,13 +73,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <input
-              class="form-control form-control-lg"
-              type="text"
-              placeholder="Title"
-              aria-label=".form-control-lg example"
-            />
-            <input class="form-control" type="date" placeholder="Date" aria-label="default input example" />
+            <input id="topicinput" class="form-control" type="text" placeholder="Topic" aria-label=".form-control example" />
+
+            <input id="dateinput" class="form-control" type="date" placeholder="Date" aria-label="default input example" />
+
+
             <div id="checkabsent"><h4>Mark Absent</h4></div>
           </div>
           <div class="modal-footer">
@@ -100,7 +98,7 @@
       <div id="lectureslist" class="card">
         <h4>Lectures History</h4>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
+          <button type="button" onclick="createLesson()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
             Add lecture
           </button>
         </div>
