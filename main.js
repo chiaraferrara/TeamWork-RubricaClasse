@@ -11,6 +11,83 @@ let students = [];
 //     this.subject = subject;
 //   }
 
+
+//---------------METODO DI VISUALIZZAZIONE REGISTRO---------------------
+
+const showRegister = () => {
+  const registersContainer = document.querySelector('.registerscontainer');
+
+  if (registersContainer) {
+    const storedRegisters = JSON.parse(localStorage.getItem('registers'));
+
+    storedRegisters.forEach(register => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.style.width = '18rem';
+
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body');
+
+      const cardTitle = document.createElement('input');
+      cardTitle.classList.add('card-title');
+      cardTitle.setAttribute('id', `subjectTitle_${register.id}`);
+      cardTitle.setAttribute('disabled', true);
+      cardTitle.textContent = register.subject;
+      cardTitle.value = register.subject;
+
+      const redirectButton = document.createElement('a');
+      redirectButton.href = `register/${register.id}`;
+      redirectButton.classList.add('btn', 'btn-link');
+
+      const image = document.createElement('img');
+      image.src = 'assets/access.svg';
+      redirectButton.appendChild(image);
+
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(redirectButton);
+      card.appendChild(cardBody);
+
+      const editSubjectBtn = document.createElement('button');
+      editSubjectBtn.setAttribute('class', 'btn-link');
+      const editImg = document.createElement('img');
+      editImg.src = 'assets/edit.svg';
+      editSubjectBtn.appendChild(editImg);
+
+      registersContainer.appendChild(card);
+      cardBody.appendChild(editSubjectBtn);
+
+      editSubjectBtn.addEventListener('click', function () {
+        cardTitle.removeAttribute('disabled');
+        editSubjectBtn.setAttribute('disabled', true);
+
+        const saveSubj = document.createElement('button');
+        saveSubj.setAttribute('class', 'btn-link');
+        saveSubj.setAttribute('id', 'saveBtnSubject');
+        const saveSubjImg = document.createElement('img');
+        saveSubjImg.src = 'assets/save.svg';
+        saveSubj.appendChild(saveSubjImg);
+
+        cardBody.appendChild(saveSubj);
+
+        document.getElementById('saveBtnSubject').addEventListener('click', function () {
+          const newSubjectTitle = document.getElementById(`subjectTitle_${register.id}`).value;
+          updateRegister(register.id, newSubjectTitle);
+          console.log(newSubjectTitle);
+
+          
+          cardTitle.setAttribute('disabled', false);
+          editSubjectBtn.removeAttribute('disabled');
+          saveSubj.remove();
+          newSubjectTitle.textContent = `${register.subject}`;
+        });
+      });
+    });
+  }
+}
+
+
+
+
 //--------------------METODI REGISTRO--------------------
 
 const createRegister = () => {
@@ -31,6 +108,7 @@ const createRegister = () => {
   storedRegisters.push(register);
   console.log(registers);
   localStorage.setItem('registers', JSON.stringify(storedRegisters));
+  showRegister();
   return register;
 };
 
@@ -441,72 +519,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  const registersContainer = document.querySelector('.registerscontainer');
 
-  if (registersContainer) {
-    const storedRegisters = JSON.parse(localStorage.getItem('registers'));
 
-    storedRegisters.forEach(register => {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.style.width = '18rem';
 
-      const cardBody = document.createElement('div');
-      cardBody.classList.add('card-body');
-
-      const cardTitle = document.createElement('input');
-      cardTitle.classList.add('card-title');
-      cardTitle.setAttribute('id', `subjectTitle_${register.id}`);
-      cardTitle.setAttribute('disabled', true);
-      cardTitle.textContent = register.subject;
-      cardTitle.value = register.subject;
-
-      const redirectButton = document.createElement('a');
-      redirectButton.href = `register/${register.id}`;
-      redirectButton.classList.add('btn', 'btn-link');
-
-      const image = document.createElement('img');
-      image.src = 'assets/access.svg';
-      redirectButton.appendChild(image);
-
-      cardBody.appendChild(cardTitle);
-      cardBody.appendChild(redirectButton);
-      card.appendChild(cardBody);
-
-      const editSubjectBtn = document.createElement('button');
-      editSubjectBtn.setAttribute('class', 'btn-link');
-      const editImg = document.createElement('img');
-      editImg.src = 'assets/edit.svg';
-      editSubjectBtn.appendChild(editImg);
-
-      registersContainer.appendChild(card);
-      cardBody.appendChild(editSubjectBtn);
-
-      editSubjectBtn.addEventListener('click', function () {
-        cardTitle.removeAttribute('disabled');
-        editSubjectBtn.setAttribute('disabled', true);
-
-        const saveSubj = document.createElement('button');
-        saveSubj.setAttribute('class', 'btn-link');
-        saveSubj.setAttribute('id', 'saveBtnSubject');
-        const saveSubjImg = document.createElement('img');
-        saveSubjImg.src = 'assets/save.svg';
-        saveSubj.appendChild(saveSubjImg);
-
-        cardBody.appendChild(saveSubj);
-
-        document.getElementById('saveBtnSubject').addEventListener('click', function () {
-          const newSubjectTitle = document.getElementById(`subjectTitle_${register.id}`).value;
-          updateRegister(register.id, newSubjectTitle);
-          console.log(newSubjectTitle);
-
-          
-          cardTitle.setAttribute('disabled', false);
-          editSubjectBtn.removeAttribute('disabled');
-          saveSubj.remove();
-          newSubjectTitle.textContent = `${register.subject}`;
-        });
-      });
-    });
-  }
+showRegister();
 });
