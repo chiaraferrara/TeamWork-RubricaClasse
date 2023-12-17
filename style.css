@@ -1,4 +1,6 @@
 /** @format */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap');
+
 
 #container {
   width: 40%;
@@ -25,6 +27,7 @@ body {
     Helvetica Neue,
     Arial,
     sans-serif;
+    
 }
 
 .addSubjectForm,
@@ -37,6 +40,8 @@ input {
 }
 
 .dashboard {
+    width: 60%;
+    margin: auto;
   padding: 4%;
   display: flex;
   flex-flow: column wrap;
@@ -70,10 +75,33 @@ input {
   color: rgb(0, 0, 0);
 }
 
+.card{
+    /* border-radius: 2em; */
+    width: fit-content;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(243,253,255,1) 77%, rgba(230,230,230,1) 95%, rgba(13,110,253,1) 95%, rgba(13,110,253,1) 100%);
+    display: inline-block;
+    margin: 10px;
+    background: #fff;
+    padding: 15px;
+    min-width: 200px;
+    color: #555;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.185);
+
+}
 .card,
 .card-title {
   margin-bottom: 2%;
   text-transform: capitalize;
+  font-size: 1.1rem;
+  text-align: center;
+  
+
+  font-family: 'Kanit', sans-serif;
+}
+
+h3{
+    font-family: 'Kanit', sans-serif;
 }
 .card:hover {
   box-shadow: 1px 5px 8px rgba(0, 0, 0, 0.055);
