@@ -185,4 +185,6 @@ input:disabled {
 }
 
 
-
+#subjectTitle, .card-title{
+  max-width: 147px;
+}

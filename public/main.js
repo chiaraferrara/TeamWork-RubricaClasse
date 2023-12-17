@@ -35,6 +35,8 @@ const showRegister = () => {
       cardTitle.textContent = register.subject;
       cardTitle.value = register.subject;
 
+      const breakLine = document.createElement('br');
+
       const redirectButton = document.createElement('a');
       redirectButton.href = `register.html?id=${register.id}`;
       redirectButton.classList.add('btn', 'btn-link');
@@ -44,6 +46,7 @@ const showRegister = () => {
       redirectButton.appendChild(image);
 
       cardBody.appendChild(cardTitle);
+      cardBody.appendChild(breakLine);
       cardBody.appendChild(redirectButton);
       card.appendChild(cardBody);
 
