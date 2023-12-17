@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
 // app.get('/register/:id', (req, res) => {
 //     res.sendFile(path.join(__dirname, '/', 'register.html'));
 //   });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 //ENDPOINT INDEX (ROOT)
 app.get('/', (req, res) => {
@@ -15,7 +17,8 @@ app.get('/', (req, res) => {
 
 
 //ENDPOINT PAGINA REGISTER
-app.get('/register/:id', (req, res) => {
+app.get('/register.html', (req, res) => {
+    const registerId = req.query.id;
     res.sendFile(path.join(__dirname, 'register.html'));
 });
 
@@ -44,6 +47,6 @@ app.get('*.css', (req, res) => {
 
 
 //AVVIO SERVER EXPRESS
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('Server is running on http://localhost:3000');
 });
