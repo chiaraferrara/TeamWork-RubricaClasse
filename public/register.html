@@ -1,0 +1,108 @@
+<!-- @format -->
+
+<!-- register.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="register.js"></script>
+  </head>
+  <body>
+    <nav class="navbar bg-primary" data-bs-theme="dark">
+      <a href="/"
+        ><button class="btn btn-link"><img style="width: 30px" src="assets/exit.png" /></button
+      ></a>
+
+      <!-- dropdown per l'aggiunta -->
+      <ul class="nav-item dropdown">
+        <a
+          style="font-weight: bolder"
+          class="nav-link dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Add students
+        </a>
+        <ul class="dropdown-menu">
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add Manually
+          </button>
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item btn btn-dark" style="width: 95%" href="#">Sync</a></li>
+        </ul>
+      </ul>
+    </nav>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Check the student you want to add</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="addStBody" class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button onclick="getSelectedStudents()" type="button" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="ModalLecture" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Add a lecture</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input id="topicinput" class="form-control" type="text" placeholder="Topic" aria-label=".form-control example" />
+
+            <input id="dateinput" class="form-control" type="date" placeholder="Date" aria-label="default input example" />
+
+
+            <div id="checkabsent"><h4>Mark Absent</h4></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 id="subject"></h1>
+
+    <div id="flexregister">
+      <div id="studentListContainer" class="card">
+        <h4>Students:</h4>
+      </div>
+
+      <div id="lectureslist" class="card">
+        <h4>Lectures History</h4>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" onclick="createLesson()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
+            Add lecture
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

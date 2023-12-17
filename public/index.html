@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portale Registro</title>
+    <script src="main.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar bg-primary" data-bs-theme="dark">
+        <button  class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addRegisterModal">Aggiungi un registro</button>
+        <button  class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#addStudentModal">Aggiungi un alunno</button>
+      </nav>
+
+
+
+<div class="modal" tabindex="-1" id="addRegisterModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" class="form-label">
+
+            <div class="addSubjectForm">
+
+            </div>
+           
+            <div class="modal-footer">
+
+                
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closebtnAddRegister">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" tabindex="-1" id="addStudentModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-student-body" class="form-label">
+
+            <div class="addStudentForm">
+                
+            </div>
+           
+            <div class="modal-footer" id="modal-student-footer">
+                
+
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  id="closebtnAddStudent">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dashboard">
+    <div>
+        <h3>Materie</h3></div>
+    <div class="registerscontainer">
+
+
+
+    </div>
+    <div>
+    <h3>Studenti</h3></div>
+    <div class="studentlistcontainer">
+
+
+
+    </div>
+  </div>
+</body>
+</html>

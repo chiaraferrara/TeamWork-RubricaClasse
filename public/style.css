@@ -1,0 +1,190 @@
+/** @format */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
+
+#container {
+  width: 40%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.navbar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.btn {
+  border-radius: 0rem;
+  margin-inline: 4px;
+  margin: 2px;
+}
+
+body {
+  /* overflow: hidden; */
+  font-family:
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+}
+
+.addSubjectForm,
+.addStudentForm {
+  padding: 4%;
+}
+
+input {
+  margin: 1%;
+}
+
+.dashboard {
+  width: 60%;
+  margin: auto;
+  padding: 4%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.registerscontainer,
+.studentlistcontainer {
+  /* background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(243,253,255,1) 77%, rgba(230,230,230,1) 95%, rgba(13,110,253,1) 95%, rgba(13,110,253,1) 100%); */
+  width: 100%;
+  padding: 3%;
+
+  margin: 1%;
+}
+
+.accordion-button {
+  padding: 1%;
+  font-weight: bolder;
+  margin: 2px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.accordion-button:active {
+  padding: 2%;
+  font-weight: bolder;
+  margin: 2px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+.card {
+  /* border-radius: 2em; */
+  width: fit-content;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 35%,
+    rgba(243, 253, 255, 1) 77%,
+    rgba(230, 230, 230, 1) 95%,
+    rgba(13, 110, 253, 1) 95%,
+    rgba(13, 110, 253, 1) 100%
+  );
+  display: inline-block;
+  margin: 10px;
+  background: #fff;
+  padding: 15px;
+  min-width: 200px;
+  color: #555;
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.185); */
+}
+.card,
+.card-title {
+  margin-bottom: 2%;
+  text-transform: capitalize;
+  font-size: 1.1rem;
+  text-align: center;
+
+  font-family: 'Kanit', sans-serif;
+}
+
+h3 {
+  font-family: 'Kanit', sans-serif;
+}
+
+.accordion-body {
+  background-color: rgba(209, 209, 209, 0.233);
+}
+
+.registerscontainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+input:disabled {
+  border: 0px transparent;
+}
+
+.accordion-body {
+  display: inline-grid;
+}
+/* 
+.scrollable-element {
+    overflow: hidden;
+  } */
+
+#studentBtn {
+  transition: background-color 3.3s ease;
+}
+
+#studentBtn:active {
+  background-color: transparent;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0d6efd;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0d6efd;
+}
+
+.btn-link {
+  border: 0px solid transparent;
+}
+
+/* style del register */
+
+#subject {
+  font-family: 'Titillium Web', sans-serif;
+  text-transform: capitalize;
+  text-align: center;
+  font-weight: bolder;
+}
+
+#flexregister {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+#lectureslist {
+  width: 500px;
+}
+
+#list-group-item {
+  margin-bottom: 13px;
+}
+
+
+#subjectTitle, .card-title{
+  max-width: 147px;
+}
