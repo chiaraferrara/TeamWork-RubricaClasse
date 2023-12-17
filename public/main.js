@@ -36,7 +36,7 @@ const showRegister = () => {
       cardTitle.value = register.subject;
 
       const redirectButton = document.createElement('a');
-      redirectButton.href = `register/${register.id}`;
+      redirectButton.href = `register.html?id=${register.id}`;
       redirectButton.classList.add('btn', 'btn-link');
 
       const image = document.createElement('img');
