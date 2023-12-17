@@ -1,6 +1,8 @@
 /** @format */
 const urlParams = new URLSearchParams(window.location.search);
 const registerId = urlParams.get('id');
+let registerData;
+let allstudentsData;
 
 //ci consente di aggiungere gli studenti manualmente
 
@@ -19,6 +21,8 @@ const getSelectedStudents = () => {
   localStorage.setItem('registers', JSON.stringify(registersData));
 
   console.log('Students:', studentList);
+
+  location.reload();
 };
 
 const deleteStudent = studentId => {
@@ -35,21 +39,30 @@ const deleteStudent = studentId => {
   console.log(registerData);
 };
 
-const createLesson = (id, date, topic, absent) => {
-  const registro = registers.find(register => register.id === id);
+const createLesson = () => {
+    const registersData = JSON.parse(localStorage.getItem('registers')) || [];
+    const absentList = Array.from(document.querySelectorAll('input[name="absent"]:checked')).map(input => input.value);
+    const registerData = registersData.find(register => register.id === parseInt(registerId));
+  
+    const datein = document.getElementById('dateinput').value;
+    const topicin = document.getElementById('topicinput').value;
+  
+    if (registerData) {
+       registerData.lectures = registerData.lectures || [];
 
-  if (registro) {
-    const newLesson = {
-      id: Date.now(), //timestamp corrente come identificatore
-      date: date,
-      topic: topic,
-      absent: students.map(student => student.id),
-    };
-
-    registro.lectures.push(newLesson);
-    saveOnLocalStorage();
-  }
+      const newLesson = {
+        id: Date.now(),
+        date: datein,
+        topic: topicin,
+        absent: absentList,
+      };
+  
+      registerData.lectures.push(newLesson);
+      localStorage.setItem('registers', JSON.stringify(registersData));
+    }
 };
+
+  
 
 const deleteLesson = ({ id, idRegister }) => {
   const registro = registers.find(register => register.id === idRegister);
@@ -95,6 +108,7 @@ const markAttendance = (lessonId, studentId, idRegister) => {
   }
 };
 
+
 document.addEventListener('DOMContentLoaded', function () {
   //prendo l'id
   const urlParams = new URLSearchParams(window.location.search);
@@ -139,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addStModalBody.appendChild(label);
     addStModalBody.appendChild(document.createElement('br'));
   });
-
+  // DEVO CREARE UN METODO - TO IMPLEMENT!
   const studentListContainer = document.getElementById('studentListContainer');
   studentListContainer.innerHTML = '';
 
@@ -173,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
           console.log(error);
         }
+        location.reload(); //temporaneamente...
       });
 
       studentListContainer.appendChild(listGroupul);
@@ -181,23 +196,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const checkAbsentContainer = document.getElementById('checkabsent');
 
-  registerData.studentslist.forEach(student => {
-    student = allstudentssData.find(s => s.id === parseInt(studentId));
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'form-check-input';
-    checkbox.id = `student_${student.id}`;
-    checkbox.value = student.id;
+  registerData.studentslist.forEach(studentId => {
+    const student = allstudentssData.find(s => s.id === parseInt(studentId));
+    console.log(student);
 
-    const label = document.createElement('label');
-    label.className = 'form-check-label';
-    label.htmlFor = `student_${student.id}`;
-    label.appendChild(document.createTextNode(`${student.name} ${student.lastName}`));
+    if (student) {
+      const abCheckbox = document.createElement('input');
+      abCheckbox.type = 'checkbox';
+      abCheckbox.name = 'absent';
+      abCheckbox.className = 'form-check-input';
+      abCheckbox.id = `student_${student.id}`;
+      abCheckbox.value = student.id;
 
-    const divCheck = document.createElement('div');
-    divCheck.className = 'form-check';
-    divCheck.appendChild(checkbox);
-    divCheck.appendChild(label);
-    checkAbsentContainer.appendChild(divCheck);
+      const label = document.createElement('label');
+      label.className = 'form-check-label';
+      label.htmlFor = `student_${student.id}`;
+      label.appendChild(document.createTextNode(`${student.name} ${student.lastName}`));
+
+      const divCheck = document.createElement('div');
+      divCheck.className = 'form-check';
+      divCheck.appendChild(abCheckbox);
+      divCheck.appendChild(label);
+      checkAbsentContainer.appendChild(divCheck);
+    }
   });
 });

@@ -16,7 +16,7 @@ let students = [];
 
 const showRegister = () => {
   const registersContainer = document.querySelector('.registerscontainer');
-
+  registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo ppa
   if (registersContainer) {
     const storedRegisters = JSON.parse(localStorage.getItem('registers'));
 
@@ -285,6 +285,8 @@ const markAttendance = (lessonId, studentId, idRegister) => {
 // };
 
 document.addEventListener('DOMContentLoaded', function () {
+  showRegister();
+
   students = JSON.parse(localStorage.getItem('students'));
 
   const closeBtnRegister = document.getElementById('closebtnAddRegister');
@@ -307,6 +309,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('btnSubjectInput').addEventListener('click', function () {
     createRegister();
+
+    const subject = document.getElementById('subjectInput').value;
+    console.log(subject)
+
+    
     closeBtnRegister.click();
   });
 
@@ -519,8 +526,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+// showRegister();
 
-
-
-showRegister();
 });
