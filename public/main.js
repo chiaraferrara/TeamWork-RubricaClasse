@@ -220,26 +220,13 @@ const showRegister = () => {
       const editImg = document.createElement('img');
       editImg.src = 'assets/edit.svg';
       editSubjectBtn.appendChild(editImg);
-// DELETE BUTTON REGISTER
-      const deleteRegBtn = document.createElement('button');
-      deleteRegBtn.setAttribute('class', 'btn btn-danger');
-      deleteRegBtn.innerText = 'Delete';
 
-
-      deleteRegBtn.addEventListener('click', function (){
-        console.log(register.id)
-        deleteRegister(register.id);
-
-      })
       registersContainer.appendChild(card);
-
       cardBody.appendChild(editSubjectBtn);
-      cardBody.appendChild(deleteRegBtn);
-      editSubjectBtn.addEventListener('click', function () {
-      cardTitle.removeAttribute('disabled');
-      editSubjectBtn.setAttribute('disabled', true);
 
-      
+      editSubjectBtn.addEventListener('click', function () {
+        cardTitle.removeAttribute('disabled');
+        editSubjectBtn.setAttribute('disabled', true);
 
         const saveSubj = document.createElement('button');
         saveSubj.setAttribute('class', 'btn-link');
@@ -286,14 +273,9 @@ const createRegister = () => {
     studentslist: [],
     lectures: [],
   };
-
-  if(subject != ""){
   storedRegisters.push(register);
   console.log(registers);
-  localStorage.setItem('registers', JSON.stringify(storedRegisters));}
-  else{
-    alert('Invalid subject name')
-  }
+  localStorage.setItem('registers', JSON.stringify(storedRegisters));
   showRegister();
   return register;
 };
@@ -337,22 +319,21 @@ const addStudentstoSubject = id => {
 };
 
 //voglio che questo metodo prenda l'id del registro come parametro e faccia il push di tutti gli studenti nell'array del registro in questione
-// const connectStudentToRegister = registerId => {
-//   const registro = registers.find(register => register.id === registerId);
+const connectStudentToRegister = registerId => {
+  const registro = registers.find(register => register.id === registerId);
 
-//   if (registro) {
-//     students.forEach(student => registro.studentslist.push(student.id));
-//     saveOnLocalStorage();
-//   }
-// };
-
-
+  if (registro) {
+    students.forEach(student => registro.studentslist.push(student.id));
+    saveOnLocalStorage();
+  }
+};
 
 const deleteRegister = id => {
   const index = registers.findIndex(register => register.id === id);
+  if (index !== -1) {
     registers.splice(index, 1);
-    localStorage.setItem('registers', JSON.stringify(registers));
-    showRegister();
+  }
+  saveOnLocalStorage();
 };
 //--------------------METODI STUDENTE---------------------------
 const addStudent = () => {
@@ -374,14 +355,9 @@ const addStudent = () => {
     grades: [],
     attendance: false,
   };
-
-  if (name != "" ||  lastName != "" || email != "" ){
   storedStudents.push(student);
   localStorage.setItem('students', JSON.stringify(storedStudents));
 
-  } else{
-    alert('Invalid student info')
-  }
   return student;
 };
 
@@ -478,7 +454,6 @@ const markAttendance = (lessonId, studentId, idRegister) => {
 
 document.addEventListener('DOMContentLoaded', function () {
   showRegister();
-  showStudent();
 
   students = JSON.parse(localStorage.getItem('students'));
 
@@ -493,7 +468,6 @@ document.addEventListener('DOMContentLoaded', function () {
   subjectInput.setAttribute('id', 'subjectInput');
   subjectInput.setAttribute('class', 'form-control');
   subjectInput.setAttribute('placeholder', 'Subject Name');
-  subjectInput.required = true;
 
   const buttonSubjectInput = document.createElement('button');
   buttonSubjectInput.textContent = 'Add a Subject';
@@ -519,16 +493,13 @@ document.addEventListener('DOMContentLoaded', function () {
   studentNameInput.setAttribute('id', 'NameInput');
   studentNameInput.setAttribute('class', 'form-control');
   studentNameInput.setAttribute('placeholder', 'Name');
-  studentNameInput. required = true;
 
   //INPUT DEL COGNOME
   const studentLastNameInput = document.createElement('input');
   studentLastNameInput.setAttribute('id', 'LastNameInput');
   studentLastNameInput.setAttribute('class', 'form-control');
   studentLastNameInput.setAttribute('placeholder', 'Last Name');
-  studentLastNameInput.required = true;
   addStudentModal.appendChild(studentLastNameInput);
-  
 
   //INPUT DELLA MAIL
   const studentEmailInput = document.createElement('input');
@@ -536,7 +507,6 @@ document.addEventListener('DOMContentLoaded', function () {
   studentEmailInput.setAttribute('class', 'form-control');
   studentEmailInput.setAttribute('type', 'email');
   studentEmailInput.setAttribute('placeholder', 'Email');
-  studentEmailInput.required = true;
   addStudentModal.appendChild(studentEmailInput);
 
   //INPUT DEL TELEFONO
@@ -561,9 +531,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentListContainer = document.querySelector('.studentlistcontainer');
 
   //LISTA DEGLI STUDENTI
-  // students.forEach((student, index) => {
-  //   const studentContainer = document.createElement('div');
-  //   studentContainer.classList.add('accordion-item');
+  students.forEach((student, index) => {
+    const studentContainer = document.createElement('div');
+    studentContainer.classList.add('accordion-item');
 
   //   const studentHeader = document.createElement('h2');
   //   studentHeader.classList.add('accordion-header');
