@@ -46,7 +46,9 @@ const createLesson = () => {
     const registerData = registersData.find(register => register.id === parseInt(registerId));
   
     const datein = document.getElementById('dateinput').value;
+    console.log(datein);
     const topicin = document.getElementById('topicinput').value;
+    console.log(topicin);
   
     if (registerData) {
        registerData.lectures = registerData.lectures || [];
