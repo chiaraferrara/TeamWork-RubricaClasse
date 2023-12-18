@@ -221,3 +221,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+function connectStudentToRegister(){
+  const students = JSON.parse(localStorage.getItem('students'));
+  const registersData = JSON.parse(localStorage.getItem('registers')) || [];
+  
+  const registerData = registersData.find(register => register.id === parseInt(registerId));
+
+  if (registerData) {
+    students.forEach(student => {
+      registerData.studentslist.push(student.id);
+    });
+    localStorage.setItem('registers', JSON.stringify(registersData));
+    location.reload();
+  }
+};
