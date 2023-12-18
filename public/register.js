@@ -15,7 +15,7 @@ const getSelectedStudents = () => {
   registerData.studentslist = Array.isArray(registerData.studentslist) ? registerData.studentslist : [];
   studentList.forEach(student => {
     const studentePresente = registerData.studentslist.includes(parseInt(student.value));
-    if(!studentePresente){
+    if (!studentePresente) {
       registerData.studentslist.push(parseInt(student.value));
     }
   });
@@ -41,31 +41,32 @@ const deleteStudent = studentId => {
 };
 
 const createLesson = () => {
-    const registersData = JSON.parse(localStorage.getItem('registers')) || [];
-    const absentList = Array.from(document.querySelectorAll('input[name="absent"]:checked')).map(input => input.value);
-    const registerData = registersData.find(register => register.id === parseInt(registerId));
-  
-    const datein = document.getElementById('dateinput').value;
-    console.log(datein);
-    const topicin = document.getElementById('topicinput').value;
-    console.log(topicin);
-  
-    if (registerData) {
-       registerData.lectures = registerData.lectures || [];
+  const registersData = JSON.parse(localStorage.getItem('registers')) || [];
+  const absentList = Array.from(document.querySelectorAll('input[name="absent"]:checked')).map(input => input.value);
+  const urlParams = new URLSearchParams(window.location.search);
+  const registerId = urlParams.get('id');
+  const registerData = registersData.find(register => register.id === parseInt(registerId));
 
-      const newLesson = {
-        id: Date.now(),
-        date: datein,
-        topic: topicin,
-        absent: absentList,
-      };
-  
-      registerData.lectures.push(newLesson);
-      localStorage.setItem('registers', JSON.stringify(registersData));
-    }
+  const datein = document.getElementById('dateinput').value;
+  console.log(datein);
+  const topicin = document.getElementById('topicinput').value;
+  console.log(topicin);
+
+  if (registerData) {
+    registerData.lectures = registerData.lectures || [];
+
+    const newLesson = {
+      id: Date.now(),
+      date: datein,
+      topic: topicin,
+      absent: absentList,
+    };
+
+    registerData.lectures.push(newLesson);
+    localStorage.setItem('registers', JSON.stringify(registersData));
+    saveChanges();
+  }
 };
-
-  
 
 const deleteLesson = ({ id, idRegister }) => {
   const registro = registers.find(register => register.id === idRegister);
@@ -111,9 +112,47 @@ const markAttendance = (lessonId, studentId, idRegister) => {
   }
 };
 
+const connectStudentToRegister = () => {
+  const students = JSON.parse(localStorage.getItem('students'));
+  const registersData = JSON.parse(localStorage.getItem('registers')) || [];
 
+  const registerData = registersData.find(register => register.id === parseInt(registerId));
+
+  if (registerData) {
+    students.forEach(student => {
+      const studentePresente = registerData.studentslist.includes(student.id);
+      if (!studentePresente) {
+        registerData.studentslist.push(student.id);
+      }
+    });
+    localStorage.setItem('registers', JSON.stringify(registersData));
+    location.reload();
+  }
+};
+
+const saveChanges = () => {
+  document.getElementById('closeCreateLecture').click();
+};
+
+const showLectures = () => {
+  //id del registro
+  const urlParams = new URLSearchParams(window.location.search);
+  const registerId = urlParams.get('id');
+
+  const registersData = JSON.parse(localStorage.getItem('registers')) || [];
+  const registerData = registersData.find(register => register.id === parseInt(registerId));
+
+  if (registerData) {
+    const lecturesList = registerData.lectures || [];
+    console.log(lecturesList);
+    return lecturesList;
+  }
+};
+
+//DOM
 document.addEventListener('DOMContentLoaded', function () {
   //prendo l'id
+  showLectures();
   const urlParams = new URLSearchParams(window.location.search);
   const registerId = urlParams.get('id');
 
@@ -129,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.title = `${registerData.subject}`;
 
-  console.log(registerData);
+  // console.log(registerData);
 
   const subjectElement = document.getElementById('subject');
 
@@ -201,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   registerData.studentslist.forEach(studentId => {
     const student = allstudentssData.find(s => s.id === parseInt(studentId));
-    console.log(student);
+    // console.log(student);
 
     if (student) {
       const abCheckbox = document.createElement('input');
@@ -224,21 +263,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
-
-function connectStudentToRegister(){
-  const students = JSON.parse(localStorage.getItem('students'));
-  const registersData = JSON.parse(localStorage.getItem('registers')) || [];
-  
-  const registerData = registersData.find(register => register.id === parseInt(registerId));
-
-  if (registerData) {
-      students.forEach(student => {
-        const studentePresente = registerData.studentslist.includes(student.id);
-        if(!studentePresente){
-          registerData.studentslist.push(student.id);
-        }
-      });
-    localStorage.setItem('registers', JSON.stringify(registersData));
-    location.reload();
-  }
-};

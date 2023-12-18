@@ -81,8 +81,8 @@
             <div id="checkabsent"><h4>Mark Absent</h4></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeCreateLecture">Close</button>
+            <button type="button" onclick="createLesson()" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@
       <div id="lectureslist" class="card">
         <h4>Lectures History</h4>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" onclick="createLesson()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
             Add lecture
           </button>
         </div>
