@@ -13,15 +13,16 @@ const getSelectedStudents = () => {
   const registerData = registersData.find(register => register.id === parseInt(registerId));
 
   registerData.studentslist = Array.isArray(registerData.studentslist) ? registerData.studentslist : [];
-
   studentList.forEach(student => {
-    registerData.studentslist.push(student.value);
+    const studentePresente = registerData.studentslist.includes(parseInt(student.value));
+    if(!studentePresente){
+      registerData.studentslist.push(parseInt(student.value));
+    }
   });
 
   localStorage.setItem('registers', JSON.stringify(registersData));
 
   console.log('Students:', studentList);
-
   location.reload();
 };
 
@@ -229,9 +230,12 @@ function connectStudentToRegister(){
   const registerData = registersData.find(register => register.id === parseInt(registerId));
 
   if (registerData) {
-    students.forEach(student => {
-      registerData.studentslist.push(student.id);
-    });
+      students.forEach(student => {
+        const studentePresente = registerData.studentslist.includes(student.id);
+        if(!studentePresente){
+          registerData.studentslist.push(student.id);
+        }
+      });
     localStorage.setItem('registers', JSON.stringify(registersData));
     location.reload();
   }
