@@ -14,6 +14,171 @@ let students = [];
 
 //---------------METODO DI VISUALIZZAZIONE REGISTRO---------------------
 
+const showStudent = () => {
+  students.forEach((student, index) => {
+    const studentContainer = document.createElement('div');
+    studentContainer.classList.add('accordion-item');
+
+    const studentHeader = document.createElement('h2');
+    studentHeader.classList.add('accordion-header');
+
+    const studentButton = document.createElement('button');
+    studentButton.setAttribute('class', 'accordion-button studentBtn');
+    studentButton.setAttribute('id', 'studentBtn');
+    studentButton.setAttribute('type', 'button');
+    studentButton.setAttribute('data-bs-toggle', 'collapse');
+    studentButton.setAttribute('data-bs-target', `#collapse${index}`);
+    studentButton.setAttribute('aria-expanded', 'true');
+    studentButton.setAttribute('aria-controls', `collapse${index}`);
+    studentButton.textContent = `${student.name} ${student.lastName}`;
+
+    const studentCollapse = document.createElement('div');
+    studentCollapse.classList.add('accordion-collapse', 'collapse');
+    studentCollapse.setAttribute('id', `collapse${index}`);
+    studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
+
+    const studentBody = document.createElement('div');
+    studentBody.classList.add('accordion-body');
+
+    studentContainer.appendChild(studentHeader);
+    studentCollapse.appendChild(studentBody);
+    studentHeader.appendChild(studentButton);
+    studentListContainer.appendChild(studentContainer);
+    // },
+    document.getElementById('studentBtn').addEventListener('click', function () {
+      while (studentBody.firstChild) {
+        studentBody.removeChild(studentBody.firstChild);
+      }
+
+      const emailInput = document.createElement('input');
+      emailInput.setAttribute('type', 'email');
+      emailInput.setAttribute('placeholder', 'Enter email');
+      emailInput.value = student.email;
+      emailInput.setAttribute('disabled', true);
+
+      const nameLabel = document.createElement('strong');
+      nameLabel.textContent = 'Name: ';
+
+      const nameInput = document.createElement('input');
+      nameInput.setAttribute('type', 'text');
+      nameInput.setAttribute('placeholder', 'Enter name');
+      nameInput.value = student.name;
+      nameInput.setAttribute('disabled', true);
+
+      const lastNameLabel = document.createElement('strong');
+      lastNameLabel.textContent = 'Last Name: ';
+
+      const lastNameInput = document.createElement('input');
+      lastNameInput.setAttribute('type', 'text');
+      lastNameInput.setAttribute('placeholder', 'Enter last name');
+      lastNameInput.value = student.lastName;
+      lastNameInput.setAttribute('disabled', true);
+
+      const emailLabel = document.createElement('strong');
+      emailLabel.textContent = 'Email: ';
+
+      const emailSpan = document.createElement('input');
+      emailSpan.textContent = student.email;
+      emailSpan.setAttribute('type', 'email');
+      emailSpan.value = student.email;
+      emailSpan.setAttribute('disabled', true);
+
+      const phoneLabel = document.createElement('strong');
+      phoneLabel.textContent = 'Phone: ';
+
+      const phoneSpan = document.createElement('input');
+      phoneSpan.textContent = student.tel;
+      phoneSpan.value = student.tel;
+      phoneSpan.setAttribute('disabled', true);
+      phoneSpan.setAttribute('type', 'tel');
+
+      const buttonGroup = document.createElement('div');
+      buttonGroup.setAttribute('class', 'btn-group');
+      buttonGroup.setAttribute('role', 'group');
+      buttonGroup.setAttribute('aria-label', 'Basic example');
+
+      const editStudentBtn = document.createElement('button');
+      editStudentBtn.textContent = 'Edit';
+      editStudentBtn.setAttribute('class', 'btn btn-primary');
+      editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
+
+      const deleteStudentBtn = document.createElement('button');
+      deleteStudentBtn.textContent = 'Delete';
+      deleteStudentBtn.setAttribute('class', 'btn btn-danger');
+      deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
+
+      studentBody.appendChild(document.createElement('br'));
+
+      studentBody.appendChild(nameLabel);
+      studentBody.appendChild(nameInput);
+      studentBody.appendChild(document.createElement('br'));
+
+      studentBody.appendChild(lastNameLabel);
+      studentBody.appendChild(lastNameInput);
+      studentBody.appendChild(document.createElement('br'));
+      studentBody.appendChild(emailLabel);
+      studentBody.appendChild(emailSpan);
+      studentBody.appendChild(document.createElement('br'));
+      studentBody.appendChild(phoneLabel);
+      studentBody.appendChild(phoneSpan);
+      studentBody.appendChild(document.createElement('br'));
+      studentBody.appendChild(buttonGroup);
+      buttonGroup.appendChild(editStudentBtn);
+      buttonGroup.appendChild(deleteStudentBtn);
+      studentContainer.appendChild(studentCollapse);
+
+      studentListContainer.appendChild(studentContainer);
+
+      deleteStudentBtn.addEventListener('click', function () {
+        deleteStudent(student.id);
+        studentContainer.remove();
+      });
+      document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
+        phoneSpan.removeAttribute('disabled');
+        emailSpan.removeAttribute('disabled');
+        nameInput.removeAttribute('disabled');
+        lastNameInput.removeAttribute('disabled');
+        editStudentBtn.setAttribute('disabled', true);
+        studentButton.setAttribute('disabled', true);
+        const saveEditBtn = document.createElement('button');
+        saveEditBtn.setAttribute('class', 'btn btn-primary');
+        saveEditBtn.setAttribute('id', 'saveEditBtn');
+        saveEditBtn.textContent = 'Save';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.setAttribute('class', 'btn btn-secondary');
+        closeBtn.setAttribute('id', 'closeBtn');
+        closeBtn.textContent = 'Close';
+
+        buttonGroup.appendChild(saveEditBtn);
+        buttonGroup.appendChild(closeBtn);
+
+        document.getElementById('saveEditBtn').addEventListener('click', function () {
+          const newName = nameInput.value;
+          const newLastName = lastNameInput.value;
+          const newMail = emailSpan.value;
+          const newTel = phoneSpan.value;
+          updateStudent(student.id, newName, newLastName, newMail, newTel);
+          studentButton.textContent = `${newName} ${newLastName}`;
+          document.getElementById('closeBtn').click();
+        });
+        document.getElementById('closeBtn').addEventListener('click', function () {
+          // location.reload();
+          phoneSpan.setAttribute('disabled', true);
+          emailSpan.setAttribute('disabled', true);
+          nameInput.setAttribute('disabled', true);
+          lastNameInput.setAttribute('disabled', true);
+          editStudentBtn.removeAttribute('disabled');
+          studentButton.removeAttribute('disabled');
+          const accordionItem = document.getElementById(`collapse${index}`);
+          const bsCollapse = new bootstrap.Collapse(accordionItem);
+          bsCollapse.hide();
+        });
+      });
+    });
+  });
+}
+
 const showRegister = () => {
   const registersContainer = document.querySelector('.registerscontainer');
   registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo non si duplicano
@@ -313,6 +478,7 @@ const markAttendance = (lessonId, studentId, idRegister) => {
 
 document.addEventListener('DOMContentLoaded', function () {
   showRegister();
+  showStudent();
 
   students = JSON.parse(localStorage.getItem('students'));
 
@@ -395,168 +561,168 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentListContainer = document.querySelector('.studentlistcontainer');
 
   //LISTA DEGLI STUDENTI
-  students.forEach((student, index) => {
-    const studentContainer = document.createElement('div');
-    studentContainer.classList.add('accordion-item');
+  // students.forEach((student, index) => {
+  //   const studentContainer = document.createElement('div');
+  //   studentContainer.classList.add('accordion-item');
 
-    const studentHeader = document.createElement('h2');
-    studentHeader.classList.add('accordion-header');
+  //   const studentHeader = document.createElement('h2');
+  //   studentHeader.classList.add('accordion-header');
 
-    const studentButton = document.createElement('button');
-    studentButton.setAttribute('class', 'accordion-button studentBtn');
-    studentButton.setAttribute('id', 'studentBtn');
-    studentButton.setAttribute('type', 'button');
-    studentButton.setAttribute('data-bs-toggle', 'collapse');
-    studentButton.setAttribute('data-bs-target', `#collapse${index}`);
-    studentButton.setAttribute('aria-expanded', 'true');
-    studentButton.setAttribute('aria-controls', `collapse${index}`);
-    studentButton.textContent = `${student.name} ${student.lastName}`;
+  //   const studentButton = document.createElement('button');
+  //   studentButton.setAttribute('class', 'accordion-button studentBtn');
+  //   studentButton.setAttribute('id', 'studentBtn');
+  //   studentButton.setAttribute('type', 'button');
+  //   studentButton.setAttribute('data-bs-toggle', 'collapse');
+  //   studentButton.setAttribute('data-bs-target', `#collapse${index}`);
+  //   studentButton.setAttribute('aria-expanded', 'true');
+  //   studentButton.setAttribute('aria-controls', `collapse${index}`);
+  //   studentButton.textContent = `${student.name} ${student.lastName}`;
 
-    const studentCollapse = document.createElement('div');
-    studentCollapse.classList.add('accordion-collapse', 'collapse');
-    studentCollapse.setAttribute('id', `collapse${index}`);
-    studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
+  //   const studentCollapse = document.createElement('div');
+  //   studentCollapse.classList.add('accordion-collapse', 'collapse');
+  //   studentCollapse.setAttribute('id', `collapse${index}`);
+  //   studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
 
-    const studentBody = document.createElement('div');
-    studentBody.classList.add('accordion-body');
+  //   const studentBody = document.createElement('div');
+  //   studentBody.classList.add('accordion-body');
 
-    studentContainer.appendChild(studentHeader);
-    studentCollapse.appendChild(studentBody);
-    studentHeader.appendChild(studentButton);
-    studentListContainer.appendChild(studentContainer);
-    // },
-    document.getElementById('studentBtn').addEventListener('click', function () {
-      while (studentBody.firstChild) {
-        studentBody.removeChild(studentBody.firstChild);
-      }
+  //   studentContainer.appendChild(studentHeader);
+  //   studentCollapse.appendChild(studentBody);
+  //   studentHeader.appendChild(studentButton);
+  //   studentListContainer.appendChild(studentContainer);
+  //   // },
+  //   document.getElementById('studentBtn').addEventListener('click', function () {
+  //     while (studentBody.firstChild) {
+  //       studentBody.removeChild(studentBody.firstChild);
+  //     }
 
-      const emailInput = document.createElement('input');
-      emailInput.setAttribute('type', 'email');
-      emailInput.setAttribute('placeholder', 'Enter email');
-      emailInput.value = student.email;
-      emailInput.setAttribute('disabled', true);
+  //     const emailInput = document.createElement('input');
+  //     emailInput.setAttribute('type', 'email');
+  //     emailInput.setAttribute('placeholder', 'Enter email');
+  //     emailInput.value = student.email;
+  //     emailInput.setAttribute('disabled', true);
 
-      const nameLabel = document.createElement('strong');
-      nameLabel.textContent = 'Name: ';
+  //     const nameLabel = document.createElement('strong');
+  //     nameLabel.textContent = 'Name: ';
 
-      const nameInput = document.createElement('input');
-      nameInput.setAttribute('type', 'text');
-      nameInput.setAttribute('placeholder', 'Enter name');
-      nameInput.value = student.name;
-      nameInput.setAttribute('disabled', true);
+  //     const nameInput = document.createElement('input');
+  //     nameInput.setAttribute('type', 'text');
+  //     nameInput.setAttribute('placeholder', 'Enter name');
+  //     nameInput.value = student.name;
+  //     nameInput.setAttribute('disabled', true);
 
-      const lastNameLabel = document.createElement('strong');
-      lastNameLabel.textContent = 'Last Name: ';
+  //     const lastNameLabel = document.createElement('strong');
+  //     lastNameLabel.textContent = 'Last Name: ';
 
-      const lastNameInput = document.createElement('input');
-      lastNameInput.setAttribute('type', 'text');
-      lastNameInput.setAttribute('placeholder', 'Enter last name');
-      lastNameInput.value = student.lastName;
-      lastNameInput.setAttribute('disabled', true);
+  //     const lastNameInput = document.createElement('input');
+  //     lastNameInput.setAttribute('type', 'text');
+  //     lastNameInput.setAttribute('placeholder', 'Enter last name');
+  //     lastNameInput.value = student.lastName;
+  //     lastNameInput.setAttribute('disabled', true);
 
-      const emailLabel = document.createElement('strong');
-      emailLabel.textContent = 'Email: ';
+  //     const emailLabel = document.createElement('strong');
+  //     emailLabel.textContent = 'Email: ';
 
-      const emailSpan = document.createElement('input');
-      emailSpan.textContent = student.email;
-      emailSpan.setAttribute('type', 'email');
-      emailSpan.value = student.email;
-      emailSpan.setAttribute('disabled', true);
+  //     const emailSpan = document.createElement('input');
+  //     emailSpan.textContent = student.email;
+  //     emailSpan.setAttribute('type', 'email');
+  //     emailSpan.value = student.email;
+  //     emailSpan.setAttribute('disabled', true);
 
-      const phoneLabel = document.createElement('strong');
-      phoneLabel.textContent = 'Phone: ';
+  //     const phoneLabel = document.createElement('strong');
+  //     phoneLabel.textContent = 'Phone: ';
 
-      const phoneSpan = document.createElement('input');
-      phoneSpan.textContent = student.tel;
-      phoneSpan.value = student.tel;
-      phoneSpan.setAttribute('disabled', true);
-      phoneSpan.setAttribute('type', 'tel');
+  //     const phoneSpan = document.createElement('input');
+  //     phoneSpan.textContent = student.tel;
+  //     phoneSpan.value = student.tel;
+  //     phoneSpan.setAttribute('disabled', true);
+  //     phoneSpan.setAttribute('type', 'tel');
 
-      const buttonGroup = document.createElement('div');
-      buttonGroup.setAttribute('class', 'btn-group');
-      buttonGroup.setAttribute('role', 'group');
-      buttonGroup.setAttribute('aria-label', 'Basic example');
+  //     const buttonGroup = document.createElement('div');
+  //     buttonGroup.setAttribute('class', 'btn-group');
+  //     buttonGroup.setAttribute('role', 'group');
+  //     buttonGroup.setAttribute('aria-label', 'Basic example');
 
-      const editStudentBtn = document.createElement('button');
-      editStudentBtn.textContent = 'Edit';
-      editStudentBtn.setAttribute('class', 'btn btn-primary');
-      editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
+  //     const editStudentBtn = document.createElement('button');
+  //     editStudentBtn.textContent = 'Edit';
+  //     editStudentBtn.setAttribute('class', 'btn btn-primary');
+  //     editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
 
-      const deleteStudentBtn = document.createElement('button');
-      deleteStudentBtn.textContent = 'Delete';
-      deleteStudentBtn.setAttribute('class', 'btn btn-danger');
-      deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
+  //     const deleteStudentBtn = document.createElement('button');
+  //     deleteStudentBtn.textContent = 'Delete';
+  //     deleteStudentBtn.setAttribute('class', 'btn btn-danger');
+  //     deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
 
-      studentBody.appendChild(document.createElement('br'));
+  //     studentBody.appendChild(document.createElement('br'));
 
-      studentBody.appendChild(nameLabel);
-      studentBody.appendChild(nameInput);
-      studentBody.appendChild(document.createElement('br'));
+  //     studentBody.appendChild(nameLabel);
+  //     studentBody.appendChild(nameInput);
+  //     studentBody.appendChild(document.createElement('br'));
 
-      studentBody.appendChild(lastNameLabel);
-      studentBody.appendChild(lastNameInput);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(emailLabel);
-      studentBody.appendChild(emailSpan);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(phoneLabel);
-      studentBody.appendChild(phoneSpan);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(buttonGroup);
-      buttonGroup.appendChild(editStudentBtn);
-      buttonGroup.appendChild(deleteStudentBtn);
-      studentContainer.appendChild(studentCollapse);
+  //     studentBody.appendChild(lastNameLabel);
+  //     studentBody.appendChild(lastNameInput);
+  //     studentBody.appendChild(document.createElement('br'));
+  //     studentBody.appendChild(emailLabel);
+  //     studentBody.appendChild(emailSpan);
+  //     studentBody.appendChild(document.createElement('br'));
+  //     studentBody.appendChild(phoneLabel);
+  //     studentBody.appendChild(phoneSpan);
+  //     studentBody.appendChild(document.createElement('br'));
+  //     studentBody.appendChild(buttonGroup);
+  //     buttonGroup.appendChild(editStudentBtn);
+  //     buttonGroup.appendChild(deleteStudentBtn);
+  //     studentContainer.appendChild(studentCollapse);
 
-      studentListContainer.appendChild(studentContainer);
+  //     studentListContainer.appendChild(studentContainer);
 
-      deleteStudentBtn.addEventListener('click', function () {
-        deleteStudent(student.id);
-        studentContainer.remove();
-      });
-      document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
-        phoneSpan.removeAttribute('disabled');
-        emailSpan.removeAttribute('disabled');
-        nameInput.removeAttribute('disabled');
-        lastNameInput.removeAttribute('disabled');
-        editStudentBtn.setAttribute('disabled', true);
-        studentButton.setAttribute('disabled', true);
-        const saveEditBtn = document.createElement('button');
-        saveEditBtn.setAttribute('class', 'btn btn-primary');
-        saveEditBtn.setAttribute('id', 'saveEditBtn');
-        saveEditBtn.textContent = 'Save';
+  //     deleteStudentBtn.addEventListener('click', function () {
+  //       deleteStudent(student.id);
+  //       studentContainer.remove();
+  //     });
+  //     document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
+  //       phoneSpan.removeAttribute('disabled');
+  //       emailSpan.removeAttribute('disabled');
+  //       nameInput.removeAttribute('disabled');
+  //       lastNameInput.removeAttribute('disabled');
+  //       editStudentBtn.setAttribute('disabled', true);
+  //       studentButton.setAttribute('disabled', true);
+  //       const saveEditBtn = document.createElement('button');
+  //       saveEditBtn.setAttribute('class', 'btn btn-primary');
+  //       saveEditBtn.setAttribute('id', 'saveEditBtn');
+  //       saveEditBtn.textContent = 'Save';
 
-        const closeBtn = document.createElement('button');
-        closeBtn.setAttribute('class', 'btn btn-secondary');
-        closeBtn.setAttribute('id', 'closeBtn');
-        closeBtn.textContent = 'Close';
+  //       const closeBtn = document.createElement('button');
+  //       closeBtn.setAttribute('class', 'btn btn-secondary');
+  //       closeBtn.setAttribute('id', 'closeBtn');
+  //       closeBtn.textContent = 'Close';
 
-        buttonGroup.appendChild(saveEditBtn);
-        buttonGroup.appendChild(closeBtn);
+  //       buttonGroup.appendChild(saveEditBtn);
+  //       buttonGroup.appendChild(closeBtn);
 
-        document.getElementById('saveEditBtn').addEventListener('click', function () {
-          const newName = nameInput.value;
-          const newLastName = lastNameInput.value;
-          const newMail = emailSpan.value;
-          const newTel = phoneSpan.value;
-          updateStudent(student.id, newName, newLastName, newMail, newTel);
-          studentButton.textContent = `${newName} ${newLastName}`;
-          document.getElementById('closeBtn').click();
-        });
-        document.getElementById('closeBtn').addEventListener('click', function () {
-          // location.reload();
-          phoneSpan.setAttribute('disabled', true);
-          emailSpan.setAttribute('disabled', true);
-          nameInput.setAttribute('disabled', true);
-          lastNameInput.setAttribute('disabled', true);
-          editStudentBtn.removeAttribute('disabled');
-          studentButton.removeAttribute('disabled');
-          const accordionItem = document.getElementById(`collapse${index}`);
-          const bsCollapse = new bootstrap.Collapse(accordionItem);
-          bsCollapse.hide();
-        });
-      });
-    });
-  });
+  //       document.getElementById('saveEditBtn').addEventListener('click', function () {
+  //         const newName = nameInput.value;
+  //         const newLastName = lastNameInput.value;
+  //         const newMail = emailSpan.value;
+  //         const newTel = phoneSpan.value;
+  //         updateStudent(student.id, newName, newLastName, newMail, newTel);
+  //         studentButton.textContent = `${newName} ${newLastName}`;
+  //         document.getElementById('closeBtn').click();
+  //       });
+  //       document.getElementById('closeBtn').addEventListener('click', function () {
+  //         // location.reload();
+  //         phoneSpan.setAttribute('disabled', true);
+  //         emailSpan.setAttribute('disabled', true);
+  //         nameInput.setAttribute('disabled', true);
+  //         lastNameInput.setAttribute('disabled', true);
+  //         editStudentBtn.removeAttribute('disabled');
+  //         studentButton.removeAttribute('disabled');
+  //         const accordionItem = document.getElementById(`collapse${index}`);
+  //         const bsCollapse = new bootstrap.Collapse(accordionItem);
+  //         bsCollapse.hide();
+  //       });
+  //     });
+  //   });
+  // });
 
 // showRegister();
 
