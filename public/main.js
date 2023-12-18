@@ -154,14 +154,14 @@ const addStudentstoSubject = id => {
 };
 
 //voglio che questo metodo prenda l'id del registro come parametro e faccia il push di tutti gli studenti nell'array del registro in questione
-const connectStudentToRegister = registerId => {
-  const registro = registers.find(register => register.id === registerId);
+// const connectStudentToRegister = registerId => {
+//   const registro = registers.find(register => register.id === registerId);
 
-  if (registro) {
-    students.forEach(student => registro.studentslist.push(student.id));
-    saveOnLocalStorage();
-  }
-};
+//   if (registro) {
+//     students.forEach(student => registro.studentslist.push(student.id));
+//     saveOnLocalStorage();
+//   }
+// };
 
 const deleteRegister = id => {
   const index = registers.findIndex(register => register.id === id);
