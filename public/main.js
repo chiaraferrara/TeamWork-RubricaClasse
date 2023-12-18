@@ -55,13 +55,26 @@ const showRegister = () => {
       const editImg = document.createElement('img');
       editImg.src = 'assets/edit.svg';
       editSubjectBtn.appendChild(editImg);
+// DELETE BUTTON REGISTER
+      const deleteRegBtn = document.createElement('button');
+      deleteRegBtn.setAttribute('class', 'btn btn-danger');
+      deleteRegBtn.innerText = 'Delete';
 
+
+      deleteRegBtn.addEventListener('click', function (){
+        console.log(register.id)
+        deleteRegister(register.id);
+
+      })
       registersContainer.appendChild(card);
-      cardBody.appendChild(editSubjectBtn);
 
+      cardBody.appendChild(editSubjectBtn);
+      cardBody.appendChild(deleteRegBtn);
       editSubjectBtn.addEventListener('click', function () {
-        cardTitle.removeAttribute('disabled');
-        editSubjectBtn.setAttribute('disabled', true);
+      cardTitle.removeAttribute('disabled');
+      editSubjectBtn.setAttribute('disabled', true);
+
+      
 
         const saveSubj = document.createElement('button');
         saveSubj.setAttribute('class', 'btn-link');
@@ -168,12 +181,13 @@ const addStudentstoSubject = id => {
 //   }
 // };
 
+
+
 const deleteRegister = id => {
   const index = registers.findIndex(register => register.id === id);
-  if (index !== -1) {
     registers.splice(index, 1);
-  }
-  saveOnLocalStorage();
+    localStorage.setItem('registers', JSON.stringify(registers));
+    showRegister();
 };
 //--------------------METODI STUDENTE---------------------------
 const addStudent = () => {
