@@ -18,7 +18,7 @@ const showRegister = () => {
   const registersContainer = document.querySelector('.registerscontainer');
   registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo non si duplicano
   if (registersContainer) {
-    const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];;
+    const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];
 
     storedRegisters.forEach(register => {
       const card = document.createElement('div');

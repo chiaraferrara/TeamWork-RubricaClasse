@@ -108,7 +108,18 @@ const markAttendance = (lessonId, studentId, idRegister) => {
     }
   }
 };
+//DA COMPLETARE
+showLectures = () =>{
+  const lecturesContainer = document.getElementById('lectureslist');
+  lecturesContainer.innerHTML = '';
 
+  if(lecturesContainer){
+    const registersData = JSON.parse(localStorage.getItem('registers')) || [];
+    registerData.lectures.forEach(lecturesId => {
+      const lecture = registerData.find(l => l.id === parseInt(lecturesId)))};
+
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   //prendo l'id
