@@ -454,7 +454,6 @@ const markAttendance = (lessonId, studentId, idRegister) => {
 
 document.addEventListener('DOMContentLoaded', function () {
   showRegister();
-  showStudent();
 
   students = JSON.parse(localStorage.getItem('students'));
 
@@ -532,9 +531,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentListContainer = document.querySelector('.studentlistcontainer');
 
   //LISTA DEGLI STUDENTI
-  // students.forEach((student, index) => {
-  //   const studentContainer = document.createElement('div');
-  //   studentContainer.classList.add('accordion-item');
+  students.forEach((student, index) => {
+    const studentContainer = document.createElement('div');
+    studentContainer.classList.add('accordion-item');
 
   //   const studentHeader = document.createElement('h2');
   //   studentHeader.classList.add('accordion-header');
