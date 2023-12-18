@@ -146,6 +146,7 @@ input:disabled {
 
 #studentBtn {
   transition: background-color 3.3s ease;
+  text-transform: capitalize;;
 }
 
 #studentBtn:active {
@@ -220,3 +221,4 @@ nav{
 #subject{
   margin-top: 3%;
 }
+

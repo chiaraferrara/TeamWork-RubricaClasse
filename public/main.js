@@ -42,7 +42,7 @@ if(studentListContainer){
     studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
 
     const studentBody = document.createElement('div');
-    studentBody.classList.add('accordion-body');
+    // studentBody.classList.add('accordion-body');
 
     studentContainer.appendChild(studentHeader);
     studentCollapse.appendChild(studentBody);
@@ -103,7 +103,7 @@ if(studentListContainer){
 
       const editStudentBtn = document.createElement('button');
       editStudentBtn.textContent = 'Edit';
-      editStudentBtn.setAttribute('class', 'btn btn-primary');
+      editStudentBtn.setAttribute('class', 'btn btn-dark');
       editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
 
       const deleteStudentBtn = document.createElement('button');
@@ -145,12 +145,12 @@ if(studentListContainer){
         editStudentBtn.setAttribute('disabled', true);
         studentButton.setAttribute('disabled', true);
         const saveEditBtn = document.createElement('button');
-        saveEditBtn.setAttribute('class', 'btn btn-primary');
+        saveEditBtn.setAttribute('class', 'btn btn-dark');
         saveEditBtn.setAttribute('id', 'saveEditBtn');
         saveEditBtn.textContent = 'Save';
 
         const closeBtn = document.createElement('button');
-        closeBtn.setAttribute('class', 'btn btn-secondary');
+        closeBtn.setAttribute('class', 'btn btn-dark');
         closeBtn.setAttribute('id', 'closeBtn');
         closeBtn.textContent = 'Close';
 
