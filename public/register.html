@@ -22,7 +22,7 @@
     <script src="register.js"></script>
   </head>
   <body>
-    <nav class="navbar bg-primary" data-bs-theme="dark">
+    <nav class="navbar" data-bs-theme="dark">
       <a href="/"
         ><button class="btn btn-link"><img style="width: 30px" src="assets/exit.png" /></button
       ></a>
@@ -59,7 +59,7 @@
           <div id="addStBody" class="modal-body"></div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button onclick="getSelectedStudents()" type="button" class="btn btn-primary">Add</button>
+            <button onclick="getSelectedStudents()" type="button" class="btn btn-dark">Add</button>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeCreateLecture">Close</button>
-            <button type="button" onclick="createLesson()" class="btn btn-primary">Save changes</button>
+            <button type="button" onclick="createLesson()" class="btn btn-dark">Save changes</button>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@
       <div id="lectureslist" class="card">
         <h4>Lectures History</h4>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLecture">
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalLecture">
             Add lecture
           </button>
         </div>
