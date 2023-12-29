@@ -11,186 +11,191 @@ let students = [];
 //     this.subject = subject;
 //   }
 
-
 //---------------METODO DI VISUALIZZAZIONE REGISTRO---------------------
 
 const showStudent = () => {
   const studentListContainer = document.querySelector('.studentlistcontainer');
   studentListContainer.innerHTML = '';
-if(studentListContainer){
-  const storedStudent = JSON.parse(localStorage.getItem('students')) || [];;
-  storedStudent.forEach((student, index) => {    
-    const studentContainer = document.createElement('div');
-    studentContainer.classList.add('accordion-item');
+  if (studentListContainer) {
+    const storedStudent = JSON.parse(localStorage.getItem('students')) || [];
+    storedStudent.forEach((student, index) => {
+      const studentContainer = document.createElement('div');
+      studentContainer.classList.add('accordion-item');
 
-    const studentHeader = document.createElement('h2');
-    studentHeader.classList.add('accordion-header');
+      const studentHeader = document.createElement('h2');
+      studentHeader.classList.add('accordion-header');
 
-    const studentButton = document.createElement('button');
-    studentButton.setAttribute('class', 'accordion-button studentBtn');
-    studentButton.setAttribute('id', 'studentBtn');
-    studentButton.setAttribute('type', 'button');
-    studentButton.setAttribute('data-bs-toggle', 'collapse');
-    studentButton.setAttribute('data-bs-target', `#collapse${index}`);
-    studentButton.setAttribute('aria-expanded', 'true');
-    studentButton.setAttribute('aria-controls', `collapse${index}`);
-    studentButton.textContent = `${student.name} ${student.lastName}`;
+      const studentButton = document.createElement('button');
+      studentButton.setAttribute('class', 'accordion-button studentBtn');
+      studentButton.setAttribute('id', 'studentBtn');
+      studentButton.setAttribute('type', 'button');
+      studentButton.setAttribute('data-bs-toggle', 'collapse');
+      studentButton.setAttribute('data-bs-target', `#collapse${index}`);
+      studentButton.setAttribute('aria-expanded', 'true');
+      studentButton.setAttribute('aria-controls', `collapse${index}`);
+      studentButton.textContent = `${student.name} ${student.lastName}`;
 
-    const studentCollapse = document.createElement('div');
-    studentCollapse.classList.add('accordion-collapse', 'collapse');
-    studentCollapse.setAttribute('id', `collapse${index}`);
-    studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
+      const studentCollapse = document.createElement('div');
+      studentCollapse.classList.add('accordion-collapse', 'collapse');
+      studentCollapse.setAttribute('id', `collapse${index}`);
+      studentCollapse.setAttribute('data-bs-parent', '#accordionExample');
 
-    const studentBody = document.createElement('div');
-    // studentBody.classList.add('accordion-body');
+      const studentBody = document.createElement('div');
+      // studentBody.classList.add('accordion-body');
 
-    studentContainer.appendChild(studentHeader);
-    studentCollapse.appendChild(studentBody);
-    studentHeader.appendChild(studentButton);
-    studentListContainer.appendChild(studentContainer);
-    // },
-    document.getElementById('studentBtn').addEventListener('click', function () {
-      while (studentBody.firstChild) {
-        studentBody.removeChild(studentBody.firstChild);
-      }
-
-      const emailInput = document.createElement('input');
-      emailInput.setAttribute('type', 'email');
-      emailInput.setAttribute('placeholder', 'Enter email');
-      emailInput.value = student.email;
-      emailInput.setAttribute('disabled', true);
-
-      const nameLabel = document.createElement('strong');
-      nameLabel.textContent = 'Name: ';
-
-      const nameInput = document.createElement('input');
-      nameInput.setAttribute('type', 'text');
-      nameInput.setAttribute('placeholder', 'Enter name');
-      nameInput.value = student.name;
-      nameInput.setAttribute('disabled', true);
-
-      const lastNameLabel = document.createElement('strong');
-      lastNameLabel.textContent = 'Last Name: ';
-
-      const lastNameInput = document.createElement('input');
-      lastNameInput.setAttribute('type', 'text');
-      lastNameInput.setAttribute('placeholder', 'Enter last name');
-      lastNameInput.value = student.lastName;
-      lastNameInput.setAttribute('disabled', true);
-
-      const emailLabel = document.createElement('strong');
-      emailLabel.textContent = 'Email: ';
-
-      const emailSpan = document.createElement('input');
-      emailSpan.textContent = student.email;
-      emailSpan.setAttribute('type', 'email');
-      emailSpan.value = student.email;
-      emailSpan.setAttribute('disabled', true);
-
-      const phoneLabel = document.createElement('strong');
-      phoneLabel.textContent = 'Phone: ';
-
-      const phoneSpan = document.createElement('input');
-      phoneSpan.textContent = student.tel;
-      phoneSpan.value = student.tel;
-      phoneSpan.setAttribute('disabled', true);
-      phoneSpan.setAttribute('type', 'tel');
-
-      const buttonGroup = document.createElement('div');
-      buttonGroup.setAttribute('class', 'btn-group');
-      buttonGroup.setAttribute('role', 'group');
-      buttonGroup.setAttribute('aria-label', 'Basic example');
-
-      const editStudentBtn = document.createElement('button');
-      editStudentBtn.textContent = 'Edit';
-      editStudentBtn.setAttribute('class', 'btn btn-dark');
-      editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
-
-      const deleteStudentBtn = document.createElement('button');
-      deleteStudentBtn.textContent = 'Delete';
-      deleteStudentBtn.setAttribute('class', 'btn btn-danger');
-      deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
-
-      studentBody.appendChild(document.createElement('br'));
-
-      studentBody.appendChild(nameLabel);
-      studentBody.appendChild(nameInput);
-      studentBody.appendChild(document.createElement('br'));
-
-      studentBody.appendChild(lastNameLabel);
-      studentBody.appendChild(lastNameInput);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(emailLabel);
-      studentBody.appendChild(emailSpan);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(phoneLabel);
-      studentBody.appendChild(phoneSpan);
-      studentBody.appendChild(document.createElement('br'));
-      studentBody.appendChild(buttonGroup);
-      buttonGroup.appendChild(editStudentBtn);
-      buttonGroup.appendChild(deleteStudentBtn);
-      studentContainer.appendChild(studentCollapse);
-
+      studentContainer.appendChild(studentHeader);
+      studentCollapse.appendChild(studentBody);
+      studentHeader.appendChild(studentButton);
       studentListContainer.appendChild(studentContainer);
+      // },
+      document.getElementById('studentBtn').addEventListener('click', function () {
+        while (studentBody.firstChild) {
+          studentBody.removeChild(studentBody.firstChild);
+        }
 
-      deleteStudentBtn.addEventListener('click', function () {
-        deleteStudent(student.id);
-        studentContainer.remove();
-      });
-      document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
-        phoneSpan.removeAttribute('disabled');
-        emailSpan.removeAttribute('disabled');
-        nameInput.removeAttribute('disabled');
-        lastNameInput.removeAttribute('disabled');
-        editStudentBtn.setAttribute('disabled', true);
-        studentButton.setAttribute('disabled', true);
-        const saveEditBtn = document.createElement('button');
-        saveEditBtn.setAttribute('class', 'btn btn-dark');
-        saveEditBtn.setAttribute('id', 'saveEditBtn');
-        saveEditBtn.textContent = 'Save';
+        const emailInput = document.createElement('input');
+        emailInput.setAttribute('type', 'email');
+        emailInput.setAttribute('placeholder', 'Enter email');
+        emailInput.value = student.email;
+        emailInput.setAttribute('disabled', true);
 
-        const closeBtn = document.createElement('button');
-        closeBtn.setAttribute('class', 'btn btn-dark');
-        closeBtn.setAttribute('id', 'closeBtn');
-        closeBtn.textContent = 'Close';
+        const nameLabel = document.createElement('strong');
+        nameLabel.textContent = 'Name: ';
 
-        buttonGroup.appendChild(saveEditBtn);
-        buttonGroup.appendChild(closeBtn);
+        const nameInput = document.createElement('input');
+        nameInput.setAttribute('type', 'text');
+        nameInput.setAttribute('placeholder', 'Enter name');
+        nameInput.value = student.name;
+        nameInput.setAttribute('disabled', true);
 
-        document.getElementById('saveEditBtn').addEventListener('click', function () {
-          const newName = nameInput.value;
-          const newLastName = lastNameInput.value;
-          const newMail = emailSpan.value;
-          const newTel = phoneSpan.value;
-          updateStudent(student.id, newName, newLastName, newMail, newTel);
-          studentButton.textContent = `${newName} ${newLastName}`;
-          document.getElementById('closeBtn').click();
+        const lastNameLabel = document.createElement('strong');
+        lastNameLabel.textContent = 'Last Name: ';
+
+        const lastNameInput = document.createElement('input');
+        lastNameInput.setAttribute('type', 'text');
+        lastNameInput.setAttribute('placeholder', 'Enter last name');
+        lastNameInput.value = student.lastName;
+        lastNameInput.setAttribute('disabled', true);
+
+        const emailLabel = document.createElement('strong');
+        emailLabel.textContent = 'Email: ';
+
+        const emailSpan = document.createElement('input');
+        emailSpan.textContent = student.email;
+        emailSpan.setAttribute('type', 'email');
+        emailSpan.value = student.email;
+        emailSpan.setAttribute('disabled', true);
+
+        const phoneLabel = document.createElement('strong');
+        phoneLabel.textContent = 'Phone: ';
+
+        const phoneSpan = document.createElement('input');
+        phoneSpan.textContent = student.tel;
+        phoneSpan.value = student.tel;
+        phoneSpan.setAttribute('disabled', true);
+        phoneSpan.setAttribute('type', 'tel');
+
+        const buttonGroup = document.createElement('div');
+        buttonGroup.setAttribute('class', 'btn-group');
+        buttonGroup.setAttribute('role', 'group');
+        buttonGroup.setAttribute('aria-label', 'Basic example');
+
+        const editStudentBtn = document.createElement('button');
+        editStudentBtn.textContent = 'Edit';
+        editStudentBtn.setAttribute('class', 'btn btn-dark');
+        editStudentBtn.setAttribute('id', `editStudentBtn_${index}`);
+
+        const deleteStudentBtn = document.createElement('button');
+        deleteStudentBtn.textContent = 'Delete';
+        deleteStudentBtn.setAttribute('class', 'btn btn-danger');
+        deleteStudentBtn.setAttribute('id', `deleteStudentBtn`);
+
+        studentBody.appendChild(document.createElement('br'));
+
+        studentBody.appendChild(nameLabel);
+        studentBody.appendChild(nameInput);
+        studentBody.appendChild(document.createElement('br'));
+
+        studentBody.appendChild(lastNameLabel);
+        studentBody.appendChild(lastNameInput);
+        studentBody.appendChild(document.createElement('br'));
+        studentBody.appendChild(emailLabel);
+        studentBody.appendChild(emailSpan);
+        studentBody.appendChild(document.createElement('br'));
+        studentBody.appendChild(phoneLabel);
+        studentBody.appendChild(phoneSpan);
+        studentBody.appendChild(document.createElement('br'));
+        studentBody.appendChild(buttonGroup);
+        buttonGroup.appendChild(editStudentBtn);
+        buttonGroup.appendChild(deleteStudentBtn);
+        studentContainer.appendChild(studentCollapse);
+
+        studentListContainer.appendChild(studentContainer);
+
+        deleteStudentBtn.addEventListener('click', function () {
+          deleteStudent(student.id);
+          studentContainer.remove();
         });
-        document.getElementById('closeBtn').addEventListener('click', function () {
-          // location.reload();
-          phoneSpan.setAttribute('disabled', true);
-          emailSpan.setAttribute('disabled', true);
-          nameInput.setAttribute('disabled', true);
-          lastNameInput.setAttribute('disabled', true);
-          editStudentBtn.removeAttribute('disabled');
-          studentButton.removeAttribute('disabled');
-          const accordionItem = document.getElementById(`collapse${index}`);
-          const bsCollapse = new bootstrap.Collapse(accordionItem);
-          bsCollapse.hide();
+        document.getElementById(`editStudentBtn_${index}`).addEventListener('click', function () {
+          phoneSpan.removeAttribute('disabled');
+          emailSpan.removeAttribute('disabled');
+          nameInput.removeAttribute('disabled');
+          lastNameInput.removeAttribute('disabled');
+          editStudentBtn.setAttribute('disabled', true);
+          studentButton.setAttribute('disabled', true);
+          const saveEditBtn = document.createElement('button');
+          saveEditBtn.setAttribute('class', 'btn btn-dark');
+          saveEditBtn.setAttribute('id', 'saveEditBtn');
+          saveEditBtn.textContent = 'Save';
+
+          const closeBtn = document.createElement('button');
+          closeBtn.setAttribute('class', 'btn btn-dark');
+          closeBtn.setAttribute('id', 'closeBtn');
+          closeBtn.textContent = 'Close';
+
+          buttonGroup.appendChild(saveEditBtn);
+          buttonGroup.appendChild(closeBtn);
+
+          document.getElementById('saveEditBtn').addEventListener('click', function () {
+            const newName = nameInput.value;
+            const newLastName = lastNameInput.value;
+            const newMail = emailSpan.value;
+            const newTel = phoneSpan.value;
+            updateStudent(student.id, newName, newLastName, newMail, newTel);
+            studentButton.textContent = `${newName} ${newLastName}`;
+            document.getElementById('closeBtn').click();
+          });
+          document.getElementById('closeBtn').addEventListener('click', function () {
+            // location.reload();
+            phoneSpan.setAttribute('disabled', true);
+            emailSpan.setAttribute('disabled', true);
+            nameInput.setAttribute('disabled', true);
+            lastNameInput.setAttribute('disabled', true);
+            editStudentBtn.removeAttribute('disabled');
+            studentButton.removeAttribute('disabled');
+            const accordionItem = document.getElementById(`collapse${index}`);
+            const bsCollapse = new bootstrap.Collapse(accordionItem);
+            bsCollapse.hide();
+          });
         });
       });
     });
-});
-} else{
-  console.log('errore...')
-}
-}
+  } else {
+    console.log('errore...');
+  }
+};
+const deleteRegister = id => {
+  const index = registers.findIndex(register => register.id === id);
+  console.log(id);
+    registers.splice(index, 1);
+    localStorage.setItem('registers', JSON.stringify(registers));
+};
 
 const showRegister = () => {
   const registersContainer = document.querySelector('.registerscontainer');
-  registersContainer.innerHTML= ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo non si duplicano
+  registersContainer.innerHTML = ''; //rimuove tutto dal container dei registri. così ogni volta che si chiama il metodo non si duplicano
   if (registersContainer) {
-    const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];;
+    const storedRegisters = JSON.parse(localStorage.getItem('registers')) || [];
 
     storedRegisters.forEach(register => {
       const card = document.createElement('div');
@@ -217,9 +222,17 @@ const showRegister = () => {
       image.src = 'assets/access.svg';
       redirectButton.appendChild(image);
 
+      const removeSbj = document.createElement('button');
+      removeSbj.setAttribute('class', 'btn-link');
+      removeSbj.setAttribute('id', 'removeSbj');
+      const deleteImg = document.createElement('img');
+      deleteImg.src = 'assets/deletesbj.svg';
+      removeSbj.appendChild(deleteImg);
+
       cardBody.appendChild(cardTitle);
       cardBody.appendChild(breakLine);
       cardBody.appendChild(redirectButton);
+
       card.appendChild(cardBody);
 
       const editSubjectBtn = document.createElement('button');
@@ -230,7 +243,14 @@ const showRegister = () => {
 
       registersContainer.appendChild(card);
       cardBody.appendChild(editSubjectBtn);
+      cardBody.appendChild(removeSbj);
 
+
+      document.getElementById('removeSbj').addEventListener('click', function(){
+        deleteRegister(register.id);
+        showRegister();
+      })
+      
       editSubjectBtn.addEventListener('click', function () {
         cardTitle.removeAttribute('disabled');
         editSubjectBtn.setAttribute('disabled', true);
@@ -249,7 +269,6 @@ const showRegister = () => {
           updateRegister(register.id, newSubjectTitle);
           console.log(newSubjectTitle);
 
-          
           cardTitle.setAttribute('disabled', false);
           editSubjectBtn.removeAttribute('disabled');
           saveSubj.remove();
@@ -258,10 +277,7 @@ const showRegister = () => {
       });
     });
   }
-}
-
-
-
+};
 
 //--------------------METODI REGISTRO--------------------
 
@@ -335,13 +351,7 @@ const connectStudentToRegister = registerId => {
   }
 };
 
-const deleteRegister = id => {
-  const index = registers.findIndex(register => register.id === id);
-  if (index !== -1) {
-    registers.splice(index, 1);
-  }
-  saveOnLocalStorage();
-};
+
 //--------------------METODI STUDENTE---------------------------
 const addStudent = () => {
   const name = document.getElementById('NameInput').value;
@@ -486,9 +496,8 @@ document.addEventListener('DOMContentLoaded', function () {
     createRegister();
 
     const subject = document.getElementById('subjectInput').value;
-    console.log(subject)
+    console.log(subject);
 
-    
     closeBtnRegister.click();
   });
 
@@ -536,6 +545,5 @@ document.addEventListener('DOMContentLoaded', function () {
     showStudent();
   });
 
- // showRegister();
-
+  // showRegister();
 });
