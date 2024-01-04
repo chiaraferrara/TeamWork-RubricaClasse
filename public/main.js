@@ -27,7 +27,7 @@ const showStudent = () => {
 
       const studentButton = document.createElement('button');
       studentButton.setAttribute('class', 'accordion-button studentBtn');
-      studentButton.setAttribute('id', 'studentBtn');
+      studentButton.setAttribute('id', `studentBtn`);
       studentButton.setAttribute('type', 'button');
       studentButton.setAttribute('data-bs-toggle', 'collapse');
       studentButton.setAttribute('data-bs-target', `#collapse${index}`);
@@ -48,7 +48,7 @@ const showStudent = () => {
       studentHeader.appendChild(studentButton);
       studentListContainer.appendChild(studentContainer);
       // },
-      document.getElementById('studentBtn').addEventListener('click', function () {
+      document.getElementById(`studentBtn`).addEventListener('click', function () {
         while (studentBody.firstChild) {
           studentBody.removeChild(studentBody.firstChild);
         }

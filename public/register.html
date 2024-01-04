@@ -23,7 +23,7 @@
   </head>
   <body>
     <nav class="navbar" data-bs-theme="dark">
-      <a href="/"
+      <a href="/public/"
         ><button class="btn btn-link"><img style="width: 30px" src="assets/exit.png" /></button
       ></a>
 
@@ -97,10 +97,12 @@
 
       <div id="lectureslist" class="card">
         <h4>Lectures History</h4>
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div id='lecturegroup' role="group" aria-label="Basic example">
           <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalLecture">
             Add lecture
           </button>
+
+          <div id="lecturebox"></div>
         </div>
       </div>
     </div>

@@ -66,6 +66,7 @@ const createLesson = () => {
     localStorage.setItem('registers', JSON.stringify(registersData));
     saveChanges();
   }
+  showLectures();
 };
 
 const deleteLesson = ({ id, idRegister }) => {
@@ -135,17 +136,85 @@ const saveChanges = () => {
 };
 
 const showLectures = () => {
-  //id del registro
+  // id del registro
   const urlParams = new URLSearchParams(window.location.search);
   const registerId = urlParams.get('id');
-
+  const studentsData = JSON.parse(localStorage.getItem('students')) || [];
   const registersData = JSON.parse(localStorage.getItem('registers')) || [];
   const registerData = registersData.find(register => register.id === parseInt(registerId));
+  const lecturesList = registerData.lectures || [];
+  const lectureBox = document.getElementById('lecturebox');
+  console.log('registerData:', registerData);
+console.log('lecturesList:', lecturesList);
+  
+  lectureBox.innerHTML = '';
 
-  if (registerData) {
-    const lecturesList = registerData.lectures || [];
-    console.log(lecturesList);
-    return lecturesList;
+  if (lectureBox) {
+    lecturesList.forEach((lecture, index) => {
+      const lecturecontainer = document.createElement('div');
+      lecturecontainer.classList.add('accordion-item');
+
+      const lectureheader = document.createElement('h2');
+      lectureheader.classList.add('accordion-header');
+
+      const lecturebtn = document.createElement('button');
+      lecturebtn.setAttribute('class', 'accordion-button studentBtn');
+      lecturebtn.setAttribute('id', 'lectureBtn');
+      lecturebtn.setAttribute('type', 'button');
+      lecturebtn.setAttribute('data-bs-toggle', 'collapse');
+      lecturebtn.setAttribute('data-bs-target', `#collapse${index}`);
+      lecturebtn.setAttribute('aria-expanded', 'true');
+      lecturebtn.setAttribute('aria-controls', `collapse${index}`);
+      lecturebtn.textContent = `${lecture.topic} - ${lecture.date}`;
+
+      const lectureCollapse = document.createElement('div');
+      lectureCollapse.classList.add('accordion-collapse', 'collapse');
+      lectureCollapse.setAttribute('id', `collapse${index}`);
+      lectureCollapse.setAttribute('data-bs-parent', '#accordionExample');
+
+      const lectureBody = document.createElement('div');
+
+      //lecture body contents
+      const topicInput = document.createElement('input');
+      topicInput.setAttribute('type', 'text');
+      topicInput.value = lecture.topic;
+      topicInput.setAttribute('disabled', true);
+
+      const dateInput = document.createElement('input');
+      dateInput.setAttribute('type', 'date');
+      dateInput.value = lecture.date;
+      dateInput.setAttribute('disabled', true);
+
+      const absentList = document.createElement('ul');
+      const absList = lecture.absent || [];
+      console.log('lista assenti:', absList);
+      absList.forEach(absentStudentId => {
+        const studentId = parseInt(absentStudentId);
+        
+        const absentStudent = studentsData.find(student => student.id === studentId);
+        if (absentStudent) {
+          const listassenti = document.createElement('h3');
+          listassenti.textContent = `Absentees:`;
+          console.log(absentStudent.name);
+          const listItem = document.createElement('li');
+          
+          listItem.setAttribute('class', 'list-group-item')
+          listItem.textContent = `${absentStudent.id} - ${absentStudent.name} ${absentStudent.lastName} `;
+          absentList.appendChild(listassenti);
+          absentList.appendChild(listItem);
+        }
+      });
+
+      lectureBox.appendChild(lecturecontainer);
+      lecturecontainer.appendChild(lectureheader);
+      lectureheader.appendChild(lecturebtn);
+      lecturecontainer.appendChild(lectureCollapse);
+      lectureCollapse.appendChild(lectureBody);
+      lectureBody.appendChild(topicInput);
+      lectureBody.appendChild(dateInput);
+      lectureBody.appendChild(absentList);
+    });
+   
   }
 };
 
@@ -157,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const registerId = urlParams.get('id');
 
   const registersData = JSON.parse(localStorage.getItem('registers')) || [];
-  const allstudentssData = JSON.parse(localStorage.getItem('students')) || [];
+  const allstudentsData = JSON.parse(localStorage.getItem('students')) || [];
 
   const registerData = registersData.find(register => register.id === parseInt(registerId));
 
@@ -178,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const addStModalBody = document.getElementById('addStBody');
 
-  allstudentssData.forEach(student => {
+  allstudentsData.forEach(student => {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.className = 'form-check-label';
@@ -204,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
   studentListContainer.appendChild(studentListtitle);
 
   registerData.studentslist.forEach(studentId => {
-    const student = allstudentssData.find(s => s.id === parseInt(studentId));
+    const student = allstudentsData.find(s => s.id === parseInt(studentId));
     if (student) {
       const listGroupul = document.createElement('ul');
       listGroupul.setAttribute('class', 'list-group');
@@ -239,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const checkAbsentContainer = document.getElementById('checkabsent');
 
   registerData.studentslist.forEach(studentId => {
-    const student = allstudentssData.find(s => s.id === parseInt(studentId));
+    const student = allstudentsData.find(s => s.id === parseInt(studentId));
     // console.log(student);
 
     if (student) {
