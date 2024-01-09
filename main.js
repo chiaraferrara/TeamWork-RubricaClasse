@@ -372,9 +372,12 @@ const addStudent = () => {
     grades: [],
     attendance: false,
   };
+  if (name != "" ||  lastName != "" || email != "" ){
   storedStudents.push(student);
   localStorage.setItem('students', JSON.stringify(storedStudents));
-
+} else{
+  alert('Invalid student info')
+}
   return student;
 };
 
@@ -509,12 +512,14 @@ document.addEventListener('DOMContentLoaded', function () {
   studentNameInput.setAttribute('id', 'NameInput');
   studentNameInput.setAttribute('class', 'form-control');
   studentNameInput.setAttribute('placeholder', 'Name');
+  studentNameInput. required = true;
 
   //INPUT DEL COGNOME
   const studentLastNameInput = document.createElement('input');
   studentLastNameInput.setAttribute('id', 'LastNameInput');
   studentLastNameInput.setAttribute('class', 'form-control');
   studentLastNameInput.setAttribute('placeholder', 'Last Name');
+  studentLastNameInput.required = true;
   addStudentModal.appendChild(studentLastNameInput);
 
   //INPUT DELLA MAIL
@@ -523,6 +528,7 @@ document.addEventListener('DOMContentLoaded', function () {
   studentEmailInput.setAttribute('class', 'form-control');
   studentEmailInput.setAttribute('type', 'email');
   studentEmailInput.setAttribute('placeholder', 'Email');
+  studentEmailInput.required = true;
   addStudentModal.appendChild(studentEmailInput);
 
   //INPUT DEL TELEFONO
