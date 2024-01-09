@@ -296,9 +296,13 @@ const createRegister = () => {
     studentslist: [],
     lectures: [],
   };
+  if(subject != ""){
   storedRegisters.push(register);
   console.log(registers);
   localStorage.setItem('registers', JSON.stringify(storedRegisters));
+  }else{
+    alert('Invalid subject name')
+  }
   showRegister();
   return register;
 };
