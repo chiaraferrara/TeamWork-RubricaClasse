@@ -8,7 +8,7 @@ const PORT = 3000;
 //     res.sendFile(path.join(__dirname, '/', 'register.html'));
 //   });
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express);
 
 //ENDPOINT INDEX (ROOT)
 app.get('/', (req, res) => {
